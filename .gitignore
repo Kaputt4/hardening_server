@@ -1,0 +1,5 @@
+*.retry
+config/**
+!config/.gitkeep
+.env
+inventory/*.yml
