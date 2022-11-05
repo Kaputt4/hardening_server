@@ -39,6 +39,8 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       - name: Convert inventory templates
+        env:
+          SERVER_IP: ${{ github.event.inputs.ip }}
         run: |
           for file in `find ansible/inventory/ -type f -name '*.tpl'`;
           do
