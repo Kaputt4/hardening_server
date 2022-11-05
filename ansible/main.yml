@@ -1,0 +1,7 @@
+---
+- hosts: servers
+  user: ubuntu
+  become: true
+  roles:
+    - role: crowdsec
+      tags: [ 'crowdsec' ]

@@ -1,0 +1,24 @@
+galaxy_info:
+  author: Kaputt4 
+  description: role to install crowdsec IPS and its dashboard
+
+  license: license (ALL RIGHTS RESERVED)
+
+  min_ansible_version: '2.9'
+
+  platforms:
+    - name: ubuntu
+      versions:
+      - all
+    - name: debian
+      versions:
+      - all
+
+  galaxy_tags:
+    - Ubuntu
+    - CrowdSec
+    - Hardening
+    - Security
+
+dependencies: []
+  
