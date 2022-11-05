@@ -59,6 +59,6 @@ jobs:
           -m ping all
       - name: Deploy Ansible
         run: |
-        ansible-playbook ansible/main.yml \
-          --diff \
-          --inventory ansible/inventory/hosts.yml
+          ansible-playbook ansible/main.yml \
+            --diff \
+            --inventory ansible/inventory/hosts.yml
