@@ -18,7 +18,6 @@ jobs:
       - name: Run ansible-lint
         uses: ansible-community/ansible-lint-action@27c37f9001153675ee6abcadcd722bcbdafaba08
         with:
-          args: "ansible"
           path: "ansible/"
 
   ansible:
