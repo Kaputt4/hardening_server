@@ -1,5 +1,5 @@
 galaxy_info:
-  author: Kaputt4 
+  author: Kaputt4
   description: role to install crowdsec IPS and its dashboard
 
   license: license (ALL RIGHTS RESERVED)
@@ -9,16 +9,16 @@ galaxy_info:
   platforms:
     - name: ubuntu
       versions:
-      - all
+        - all
     - name: debian
       versions:
-      - all
+        - all
 
   galaxy_tags:
-    - Ubuntu
-    - CrowdSec
-    - Hardening
-    - Security
+    - ubuntu
+    - crowdsec
+    - hardening
+    - security
 
 dependencies: []
   

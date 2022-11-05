@@ -4,4 +4,4 @@
   become: true
   roles:
     - role: crowdsec
-      tags: [ 'crowdsec' ]
+      tags: ['crowdsec']
