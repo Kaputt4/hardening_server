@@ -20,8 +20,6 @@ jobs:
         uses: ansible-community/ansible-lint-action@27c37f9001153675ee6abcadcd722bcbdafaba08
         with:
           path: "ansible/"
-        skip_list:
-          - 'fqcn-builtins'
 
   ansible:
     name: Run Ansible hardening playbook
