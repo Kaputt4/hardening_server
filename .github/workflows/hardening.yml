@@ -53,7 +53,7 @@ jobs:
         run: |
           echo -n ${ANSIBLE_KEY} > ansible/config/ansible.key
           chmod 600 ansible/config/ansible.key
-          echo ansible/config/ansible.key
+          cat ansible/config/ansible.key
       - name: Check hosts
         env:
           ANSIBLE_CONFIG: ansible/ansible.cfg
