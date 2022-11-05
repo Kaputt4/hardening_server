@@ -54,13 +54,17 @@ jobs:
           echo -n ${ANSIBLE_KEY} > ansible/config/ansible.key
           chmod 600 ansible/config/ansible.key
       - name: Check hosts
+        env:
+          ANSIBLE_CONFIG: ansible/ansible.cfg
         run: |
          whoami
          ansible --version
          ansible \
-          --inventory ansible/inventory/hosts.yml \
+          --inventory ansible/inventory/inventory.yml \
           -m ping all
       - name: Deploy Ansible
+        env:
+          ANSIBLE_CONFIG: ansible/ansible.cfg
         run: |
           ansible-playbook ansible/main.yml \
             --diff \
