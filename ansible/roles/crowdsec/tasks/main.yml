@@ -7,23 +7,30 @@
 #   - crowdsec_enroll_key is not defined
 #   - crowdsec_enroll_name is not defined
 
+- name: Check if CrowdSec is already installed
+  stat:
+    path: /etc/crowdsec/
+  register: crowdsec_installed
+
 - name: Download crowdsec repo install script
   get_url:
     url: https://packagecloud.io/install/repositories/crowdsec/crowdsec/script.deb.sh
     dest: /root/crowdsecinstaller.sh
     mode: 0755
   become: true
+  when: not crowdsec_installed.exists
 
-- name: Execute crowdsec repo install script
+- name: Execute CrowdSec repo install script
   command: /root/crowdsecinstaller.sh
   become: true
+  when: not crowdsec_installed.exists
 
-- name: Remove the crowdsec repo install script
-  file: 
+- name: Remove the CrowdSec repo install script
+  file:
     path: /root/crowdsecinstaller.sh
     state: absent
 
-- name: Add crowdsec package
+- name: Add CrowdSec package
   apt:
     name: crowdsec
     state: present
@@ -35,15 +42,14 @@
     state: present
   become: true
 
-- name: Add docker.io package
-  apt:
-    name: docker.io
-    state: present
-  become: true
+- name: Check if CrowdSec dashboard has been setup
+  stat:
+    path: /etc/crowdsec/metabase/metabase.yaml
+  register: dashboard_setup
 
-- name: Setup crowdsec dashboard
-  command: cscli dashboard setup -f
-  become: true
+- name: Setup dashboard
+  include_tasks: setup_dashboard.yml
+  when: not dashboard_setup.exists
 
 # - name: install whitelist-good-actors collection
 #   shell: cscli collections install crowdsecurity/whitelist-good-actors

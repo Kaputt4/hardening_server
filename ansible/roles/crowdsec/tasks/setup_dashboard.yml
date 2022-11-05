@@ -1,0 +1,10 @@
+---
+- name: Add docker.io package
+  apt:
+    name: docker.io
+    state: present
+  become: true
+
+- name: Setup CrowdSec dashboard
+  command: cscli dashboard setup -f
+  become: true
