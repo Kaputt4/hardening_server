@@ -6,5 +6,5 @@
   become: true
 
 - name: Setup CrowdSec dashboard
-  command: cscli dashboard setup -f
+  command: cscli dashboard setup
   become: true
