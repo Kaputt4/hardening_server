@@ -47,8 +47,15 @@
     path: /etc/crowdsec/metabase/metabase.yaml
   register: dashboard_setup
 
-- name: Setup dashboard
-  include_tasks: setup_dashboard.yml
+- name: Add docker.io package
+  apt:
+    name: docker.io
+    state: present
+  become: true
+
+- name: Setup CrowdSec dashboard
+  command: cscli dashboard setup
+  become: true
   when: not dashboard_setup.exists
 
 # - name: install whitelist-good-actors collection
