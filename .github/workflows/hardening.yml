@@ -48,10 +48,8 @@ jobs:
           envsubst < "$file" > ${file%".tpl"};
           done
       - name: Prepare SSH key
-        env:
-          ANSIBLE_KEY: ${{ secrets.ANSIBLE_KEY }}
         run: |
-          echo -n ${ANSIBLE_KEY} > ansible/config/ansible.key
+          echo "${{secrets.ANSIBLE_KEY}}" > ansible/config/ansible.key
           chmod 600 ansible/config/ansible.key
           wc -l ansible/config/ansible.key
           wc -m ansible/config/ansible.key
