@@ -64,4 +64,4 @@ jobs:
         run: |
           ansible-playbook ansible/main.yml \
             --diff \
-            --inventory ansible/inventory/hosts.yml
+            --inventory ansible/inventory/inventory.yml
