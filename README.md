@@ -1,6 +1,8 @@
 # Hardening a Server
 Repository with Ansible playbook to harden a server.
 
+[![Hardening](https://github.com/Kaputt4/hardening_server/actions/workflows/hardening.yml/badge.svg)](https://github.com/Kaputt4/hardening_server/actions/workflows/hardening.yml)
+
 Changes are produced with a GitHub action that has to be manually triggered from [`actions`](https://github.com/Kaputt4/hardening_server/actions) tab.
 
 * SSH key to allow Ansible establish connection with the host must be defined as a GitHub repository secret with name `ANSIBLE_KEY`.
