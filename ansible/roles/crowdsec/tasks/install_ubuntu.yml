@@ -1,0 +1,37 @@
+---
+# CrowdSec installation tasks for Debian/Ubuntu
+
+- name: Check if CrowdSec is already installed
+  stat:
+    path: /etc/crowdsec/
+  register: crowdsec_installed
+
+- name: Download crowdsec repo install script
+  get_url:
+    url: https://packagecloud.io/install/repositories/crowdsec/crowdsec/script.deb.sh
+    dest: /root/crowdsecinstaller.sh
+    mode: 0755
+  become: true
+  when: not crowdsec_installed.stat.exists
+
+- name: Execute CrowdSec repo install script
+  command: /root/crowdsecinstaller.sh
+  become: true
+  when: not crowdsec_installed.stat.exists
+
+- name: Remove the CrowdSec repo install script
+  file:
+    path: /root/crowdsecinstaller.sh
+    state: absent
+
+- name: Add CrowdSec package
+  apt:
+    name: crowdsec
+    state: present
+  become: true
+
+- name: Add crowdsec-firewall-bouncer-iptables package
+  apt:
+    name: crowdsec-firewall-bouncer-iptables
+    state: present
+  become: true

@@ -1,0 +1,21 @@
+---
+CrowdSec dashboard installation tasks
+
+- name: Check if CrowdSec dashboard has been setup
+  stat:
+    path: /etc/crowdsec/metabase/metabase.yaml
+  register: dashboard_setup
+
+- name: Add docker.io package
+  apt:
+    name: docker.io
+    state: present
+  become: true
+
+- name: Setup CrowdSec dashboard
+  expect:
+    command: cscli dashboard setup
+    responses:
+      '(.*)(Metabase requires 1-2GB of RAM, your system is below this requirement)(.*)': 'Y'
+  become: true
+  when: not dashboard_setup.stat.exists

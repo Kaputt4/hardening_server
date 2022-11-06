@@ -2,66 +2,36 @@
 # Tasks file for crowdsec-plus-console
 
 # - fail:
-#     msg: "bailing out, this role requires 'crowdsec_enroll_key'  and 'crowdsec_enroll_name' to be defined."
+#     msg: "crowdsec role requires 'crowdsec_enroll_key' and 'crowdsec_enroll_name' to be defined"
 #   when:
 #   - crowdsec_enroll_key is not defined
 #   - crowdsec_enroll_name is not defined
 
-- name: Check if CrowdSec is already installed
-  stat:
-    path: /etc/crowdsec/
-  register: crowdsec_installed
+- name: Installation for Ubuntu
+  include_tasks: install_ubuntu.yml
+  when: ansible_os_family == "Debian"
 
-- name: Download crowdsec repo install script
-  get_url:
-    url: https://packagecloud.io/install/repositories/crowdsec/crowdsec/script.deb.sh
-    dest: /root/crowdsecinstaller.sh
-    mode: 0755
-  become: true
-  when: not crowdsec_installed.stat.exists
+- name: Installation for EL/CentOS 7
+  include_tasks: install_el7.yml
+  when:
+    - ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+    - ansible_distribution_major_version == "7"
 
-- name: Execute CrowdSec repo install script
-  command: /root/crowdsecinstaller.sh
-  become: true
-  when: not crowdsec_installed.stat.exists
+- name: Installation for Amazon Linux
+  include_tasks: install_el7.yml
+  when:
+    - ansible_distribution == 'Amazon'
 
-- name: Remove the CrowdSec repo install script
-  file:
-    path: /root/crowdsecinstaller.sh
-    state: absent
+- name: Installation for EL/CentOS 8
+  include_tasks: install_el8.yml
+  when:
+    - ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+    - ansible_distribution_major_version == "8"
 
-- name: Add CrowdSec package
-  apt:
-    name: crowdsec
-    state: present
-  become: true
+# - name: CrowdSec Dashboard setup
+#   include_tasks: setup_dashboard.yml
 
-- name: Add crowdsec-firewall-bouncer-iptables package
-  apt:
-    name: crowdsec-firewall-bouncer-iptables
-    state: present
-  become: true
-
-# - name: Check if CrowdSec dashboard has been setup
-#   stat:
-#     path: /etc/crowdsec/metabase/metabase.yaml
-#   register: dashboard_setup
-
-# - name: Add docker.io package
-#   apt:
-#     name: docker.io
-#     state: present
-#   become: true
-
-# - name: Setup CrowdSec dashboard
-#   expect:
-#     command: cscli dashboard setup
-#     responses:
-#       '(.*)(Metabase requires 1-2GB of RAM, your system is below this requirement)(.*)': 'Y'
-#   become: true
-#   when: not dashboard_setup.stat.exists
-
-# - name: install whitelist-good-actors collection
+# - name: Install whitelist-good-actors collection
 #   shell: cscli collections install crowdsecurity/whitelist-good-actors
 #   when: crowdsec_whitelist_good_actors | bool
 #   become: true
