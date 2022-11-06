@@ -12,22 +12,18 @@
     path: /etc/crowdsec/
   register: crowdsec_installed
 
-- name: "Debug crowdsec_installed"
-  debug:
-    msg: "crowdsec_installed variable: {{ crowdsec_installed }}"
-
 - name: Download crowdsec repo install script
   get_url:
     url: https://packagecloud.io/install/repositories/crowdsec/crowdsec/script.deb.sh
     dest: /root/crowdsecinstaller.sh
     mode: 0755
   become: true
-  when: not crowdsec_installed.exists
+  when: not crowdsec_installed.stat.exists
 
 - name: Execute CrowdSec repo install script
   command: /root/crowdsecinstaller.sh
   become: true
-  when: not crowdsec_installed.exists
+  when: not crowdsec_installed.stat.exists
 
 - name: Remove the CrowdSec repo install script
   file:
@@ -60,7 +56,7 @@
 - name: Setup CrowdSec dashboard
   command: cscli dashboard setup
   become: true
-  when: not dashboard_setup.exists
+  when: not dashboard_setup.stat.exists
 
 # - name: install whitelist-good-actors collection
 #   shell: cscli collections install crowdsecurity/whitelist-good-actors
