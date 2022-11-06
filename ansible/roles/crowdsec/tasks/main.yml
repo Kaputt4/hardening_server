@@ -42,32 +42,48 @@
     state: present
   become: true
 
-- name: Check if CrowdSec dashboard has been setup
-  stat:
-    path: /etc/crowdsec/metabase/metabase.yaml
-  register: dashboard_setup
+# - name: Check if CrowdSec dashboard has been setup
+#   stat:
+#     path: /etc/crowdsec/metabase/metabase.yaml
+#   register: dashboard_setup
 
-- name: Add docker.io package
-  apt:
-    name: docker.io
-    state: present
-  become: true
+# - name: Add docker.io package
+#   apt:
+#     name: docker.io
+#     state: present
+#   become: true
 
-- name: Setup CrowdSec dashboard
-  expect:
-    command: cscli dashboard setup
-    responses:
-      '(.*)(Metabase requires 1-2GB of RAM, your system is below this requirement)(.*)': 'Y'
-  become: true
-  when: not dashboard_setup.stat.exists
+# - name: Setup CrowdSec dashboard
+#   expect:
+#     command: cscli dashboard setup
+#     responses:
+#       '(.*)(Metabase requires 1-2GB of RAM, your system is below this requirement)(.*)': 'Y'
+#   become: true
+#   when: not dashboard_setup.stat.exists
 
 # - name: install whitelist-good-actors collection
 #   shell: cscli collections install crowdsecurity/whitelist-good-actors
 #   when: crowdsec_whitelist_good_actors | bool
 #   become: true
 
-# - name: enrolls this machine to crowdsec console
-#   command: cscli console enroll --name {{ crowdsec_enroll_name }} {{ crowdsec_enroll_key }}
-#   become: true
+- name: Check if server is already enrolled in CrowdSec console
+  lineinfile:
+    path: /etc/crowdsec/console.yaml
+    regexp: 'false'
+    state: absent
+  check_mode: true
+  register: console_enrolled
+  changed_when: false
+
+- name: Set CrowdSec console variables
+  set_fact:
+    crowdsec_enroll_name: "{{ lookup('env', 'CONSOLE_NAME') }}"
+    crowdsec_enroll_key: "{{ lookup('env', 'CONSOLE_KEY') }}"
+  when: console_enrolled.found
+
+- name: Enroll this machine to CrowdSec console
+  command: cscli console enroll --name {{ crowdsec_enroll_name }} {{ crowdsec_enroll_key }}
+  become: true
+  when: console_enrolled.found
 
 ...

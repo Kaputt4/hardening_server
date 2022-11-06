@@ -5,6 +5,9 @@ on:
       ip:
         description: Server IP Address
         required: true
+      console_name:
+        description: Server name for CrowdSec Console
+        required: true
 
 jobs:
   validate:
@@ -49,7 +52,7 @@ jobs:
           done
       - name: Prepare SSH key
         run: |
-          echo "${{secrets.ANSIBLE_KEY}}" | base64 -d > ansible/config/ansible.key
+          echo "${{ secrets.ANSIBLE_KEY }}" | base64 -d > ansible/config/ansible.key
           chmod 600 ansible/config/ansible.key
       - name: Check hosts
         env:
@@ -63,6 +66,8 @@ jobs:
       - name: Deploy Ansible
         env:
           ANSIBLE_CONFIG: ansible/ansible.cfg
+          CONSOLE_NAME: ${{ github.event.inputs.console_name }}
+          CONSOLE_KEY: ${{ secrets.CONSOLE_KEY }}
         run: |
           ansible-playbook ansible/main.yml \
             --diff \
