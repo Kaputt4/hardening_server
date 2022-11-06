@@ -1,0 +1,46 @@
+---
+# CrowdSec collections, configurations and bouncers installation
+
+- name: Add crowdsec-firewall-bouncer-iptables package Ubuntu
+  apt:
+    name: crowdsec-firewall-bouncer-iptables
+    state: present
+  become: true
+  when: ansible_os_family == "Debian"
+
+- name: Add crowdsec-firewall-bouncer-iptables package EL/CentOS 7
+  yum:
+    name: crowdsec-firewall-bouncer-iptables
+    state: present
+  become: true
+  when:
+    - ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+    - ansible_distribution_major_version == "7"
+
+- name: Add crowdsec-firewall-bouncer-iptables package Amazon Linux
+  yum:
+    name: crowdsec-firewall-bouncer-iptables
+    state: present
+  become: true
+  when:
+    - ansible_distribution == 'Amazon'
+
+- name: Add crowdsec-firewall-bouncer-iptables package EL/CentOS 8
+  dnf:
+    name: crowdsec-firewall-bouncer-iptables
+    state: present
+  become: true
+  when:
+    - ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+    - ansible_distribution_major_version == "8"
+
+- name: Get installed collections
+  command: cscli collections list
+  changed_when: false
+  become: true
+  register: collections
+
+- name: Install whitelist-good-actors collection
+  command: cscli collections install crowdsecurity/whitelist-good-actors
+  when: 'whitelist-good-actors' not in collections.stdout
+  become: true

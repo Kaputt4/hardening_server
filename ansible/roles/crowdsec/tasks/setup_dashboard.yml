@@ -12,10 +12,15 @@ CrowdSec dashboard installation tasks
     state: present
   become: true
 
+- name: Set CrowdSec dashboard variables
+  set_fact:
+    crowdsec_dashboard_password: "{{ lookup('env', 'DASHBOARD_PASSWORD') }}"
+
 - name: Setup CrowdSec dashboard
   expect:
-    command: cscli dashboard setup
+    command: cscli dashboard setup --listen 0.0.0.0 --password {{ crowdsec_dashboard_password }}
     responses:
       '(.*)(Metabase requires 1-2GB of RAM, your system is below this requirement)(.*)': 'Y'
+      '(.*)(For metabase docker to be able to access SQLite file we need to add a new group)(.*)': 'Y'
   become: true
   when: not dashboard_setup.stat.exists

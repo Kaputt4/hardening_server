@@ -68,6 +68,7 @@ jobs:
           ANSIBLE_CONFIG: ansible/ansible.cfg
           CONSOLE_NAME: ${{ github.event.inputs.console_name }}
           CONSOLE_KEY: ${{ secrets.CONSOLE_KEY }}
+          DASHBOARD_PASSWORD: ${{ secrets.DASHBOARD_PASSWORD }}
         run: |
           ansible-playbook ansible/main.yml \
             --diff \

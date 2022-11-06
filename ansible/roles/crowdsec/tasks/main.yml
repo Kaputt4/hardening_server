@@ -28,20 +28,15 @@
     - ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
     - ansible_distribution_major_version == "8"
 
-# - name: CrowdSec Dashboard setup
-#   include_tasks: setup_dashboard.yml
-
-# - name: Install whitelist-good-actors collection
-#   shell: cscli collections install crowdsecurity/whitelist-good-actors
-#   when: crowdsec_whitelist_good_actors | bool
-#   become: true
+- name: CrowdSec Dashboard setup
+  include_tasks: setup_dashboard.yml
 
 - name: Set CrowdSec console variables
   set_fact:
     crowdsec_enroll_name: "{{ lookup('env', 'CONSOLE_NAME') }}"
     crowdsec_enroll_key: "{{ lookup('env', 'CONSOLE_KEY') }}"
 
-- name: Enroll this machine to CrowdSec console
+- name: Enroll to CrowdSec console
   command: cscli console enroll --overwrite --name {{ crowdsec_enroll_name }} {{ crowdsec_enroll_key }}
   become: true
   changed_when: false

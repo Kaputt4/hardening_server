@@ -6,7 +6,7 @@
     path: /etc/crowdsec/
   register: crowdsec_installed
 
-- name: Download crowdsec repo install script
+- name: Download CrowdSec repo install script
   get_url:
     url: https://packagecloud.io/install/repositories/crowdsec/crowdsec/script.rpm.sh
     dest: /root/crowdsecinstaller.sh
@@ -27,11 +27,5 @@
 - name: Add CrowdSec package
   dnf:
     name: crowdsec
-    state: present
-  become: true
-
-- name: Add crowdsec-firewall-bouncer-iptables package
-  dnf:
-    name: crowdsec-firewall-bouncer-iptables
     state: present
   become: true
