@@ -12,6 +12,10 @@
     path: /etc/crowdsec/
   register: crowdsec_installed
 
+- name: "Debug crowdsec_installed"
+  debug:
+    msg: "crowdsec_installed variable: {{ crowdsec_installed }}"
+
 - name: Download crowdsec repo install script
   get_url:
     url: https://packagecloud.io/install/repositories/crowdsec/crowdsec/script.deb.sh

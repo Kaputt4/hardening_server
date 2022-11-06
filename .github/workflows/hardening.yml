@@ -49,10 +49,8 @@ jobs:
           done
       - name: Prepare SSH key
         run: |
-          echo "${{secrets.ANSIBLE_KEY}}" > ansible/config/ansible.key
+          echo "${{secrets.ANSIBLE_KEY}}" | base64 -d > ansible/config/ansible.key
           chmod 600 ansible/config/ansible.key
-          wc -l ansible/config/ansible.key
-          wc -m ansible/config/ansible.key
       - name: Check hosts
         env:
           ANSIBLE_CONFIG: ansible/ansible.cfg
