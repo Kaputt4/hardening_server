@@ -1,10 +1,5 @@
 ---
-CrowdSec dashboard installation tasks
-
-- name: Check if CrowdSec dashboard has been setup
-  stat:
-    path: /etc/crowdsec/metabase/metabase.yaml
-  register: dashboard_setup
+# CrowdSec dashboard installation tasks
 
 - name: Add docker.io package
   apt:
@@ -12,15 +7,22 @@ CrowdSec dashboard installation tasks
     state: present
   become: true
 
+# - name: Check if CrowdSec dashboard is up
+#   community.general.docker_container_info:
+#     name: crowdsec-metabase
+#   register: dashboard_setup
+
+- name: Check if CrowdSec dashboard is up
+  command: docker ps --format '{{ '{{' }} .Names {{ '}}' }}'
+  changed_when: false
+  become: true
+  register: dashboard_setup
+
 - name: Set CrowdSec dashboard variables
   set_fact:
     crowdsec_dashboard_password: "{{ lookup('env', 'DASHBOARD_PASSWORD') }}"
 
 - name: Setup CrowdSec dashboard
-  expect:
-    command: cscli dashboard setup --listen 0.0.0.0 --password {{ crowdsec_dashboard_password }}
-    responses:
-      '(.*)(Metabase requires 1-2GB of RAM, your system is below this requirement)(.*)': 'Y'
-      '(.*)(For metabase docker to be able to access SQLite file we need to add a new group)(.*)': 'Y'
+  command: cscli dashboard setup --listen 0.0.0.0 --password {{ crowdsec_dashboard_password }} --yes
   become: true
-  when: not dashboard_setup.stat.exists
+  when: "'crowdsec-metabase' not in dashboard_setup.stdout"

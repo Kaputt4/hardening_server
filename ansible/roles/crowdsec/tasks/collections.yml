@@ -42,5 +42,5 @@
 
 - name: Install whitelist-good-actors collection
   command: cscli collections install crowdsecurity/whitelist-good-actors
-  when: 'whitelist-good-actors' not in collections.stdout
+  when: "'whitelist-good-actors' not in collections.stdout"
   become: true
