@@ -66,28 +66,13 @@
 #   when: crowdsec_whitelist_good_actors | bool
 #   become: true
 
-- name: Check if server is already enrolled in CrowdSec console
-  lineinfile:
-    path: /etc/crowdsec/console.yaml
-    regexp: 'false'
-    state: absent
-  check_mode: true
-  register: console_enrolled
-  changed_when: false
-
-- name: Debug console_enrolled variable
-  debug:
-    var: {{ console_enrolled }}
-
 - name: Set CrowdSec console variables
   set_fact:
     crowdsec_enroll_name: "{{ lookup('env', 'CONSOLE_NAME') }}"
     crowdsec_enroll_key: "{{ lookup('env', 'CONSOLE_KEY') }}"
-  when: console_enrolled.found
 
 - name: Enroll this machine to CrowdSec console
-  command: cscli console enroll --name {{ crowdsec_enroll_name }} {{ crowdsec_enroll_key }}
+  command: cscli console enroll --overwrite --name {{ crowdsec_enroll_name }} {{ crowdsec_enroll_key }}
   become: true
-  when: console_enrolled.found
-
+  changed_when: false
 ...
