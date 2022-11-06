@@ -56,10 +56,10 @@
 - name: Setup CrowdSec dashboard
   expect:
     command: cscli dashboard setup
-    become: true
     responses:
       '(.*)(Metabase requires 1-2GB of RAM, your system is below this requirement)(.*)': 'Y'
-    when: not dashboard_setup.stat.exists
+  become: true
+  when: not dashboard_setup.stat.exists
 
 # - name: install whitelist-good-actors collection
 #   shell: cscli collections install crowdsecurity/whitelist-good-actors
