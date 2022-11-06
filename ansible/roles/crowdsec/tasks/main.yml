@@ -75,6 +75,10 @@
   register: console_enrolled
   changed_when: false
 
+- name: Debug console_enrolled variable
+  debug:
+    var: {{ console_enrolled }}
+
 - name: Set CrowdSec console variables
   set_fact:
     crowdsec_enroll_name: "{{ lookup('env', 'CONSOLE_NAME') }}"
