@@ -24,14 +24,14 @@
   become: true
   when: ansible_distribution == 'Amazon'
 
-- name: Add crowdsec-firewall-bouncer-iptables package EL/CentOS 8
+- name: Add crowdsec-firewall-bouncer-iptables package EL/CentOS 8 & EL/CentOS 9
   dnf:
     name: crowdsec-firewall-bouncer-iptables
     state: present
   become: true
   when:
     - ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
-    - ansible_distribution_major_version == "8"
+    - ansible_distribution_major_version == "8" or ansible_distribution_major_version == "9"
 
 - name: Get installed collections
   command: cscli collections list
