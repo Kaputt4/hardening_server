@@ -4,7 +4,7 @@
 - name: Install required system packages EL/CentOS 7
   yum:
     name: yum-utils
-    state: latest
+    state: present
   when:
     - ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
     - ansible_distribution_major_version == "7"
@@ -12,13 +12,13 @@
 - name: Install required system packages Amazon
   yum:
     name: yum-utils
-    state: latest
+    state: present
   when: ansible_distribution == 'Amazon'
 
 - name: Install required system packages EL/CentOS 8
   dnf:
     name: yum-utils
-    state: latest
+    state: present
   when:
     - ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
     - ansible_distribution_major_version == "8"
@@ -42,7 +42,7 @@
 - name: Install docker-ce EL/CentOS 7
   yum:
     name: docker-ce
-    state: latest
+    state: present
   when:
     - ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
     - ansible_distribution_major_version == "7"
@@ -50,13 +50,13 @@
 - name: Install docker-ce Amazon
   yum:
     name: docker-ce
-    state: latest
+    state: present
   when: ansible_distribution == 'Amazon'
 
 - name: Install docker-ce EL/CentOS 8
   dnf:
     name: docker-ce
-    state: latest
+    state: present
   when:
     - ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
     - ansible_distribution_major_version == "8"

@@ -4,14 +4,14 @@
 - name: Add crowdsec-firewall-bouncer-iptables package Ubuntu
   apt:
     name: crowdsec-firewall-bouncer-iptables
-    state: latest
+    state: present
   become: true
   when: ansible_os_family == "Debian"
 
 - name: Add crowdsec-firewall-bouncer-iptables package EL/CentOS 7
   yum:
     name: crowdsec-firewall-bouncer-iptables
-    state: latest
+    state: present
   become: true
   when:
     - ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
@@ -20,14 +20,14 @@
 - name: Add crowdsec-firewall-bouncer-iptables package Amazon Linux
   yum:
     name: crowdsec-firewall-bouncer-iptables
-    state: latest
+    state: present
   become: true
   when: ansible_distribution == 'Amazon'
 
 - name: Add crowdsec-firewall-bouncer-iptables package EL/CentOS 8
   dnf:
     name: crowdsec-firewall-bouncer-iptables
-    state: latest
+    state: present
   become: true
   when:
     - ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
