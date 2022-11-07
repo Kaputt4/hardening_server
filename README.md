@@ -43,7 +43,7 @@ Some __inputs__ are required when manually triggering the action:
 - [X] Ubuntu Server 22.04 LTS Jammy Jellyfish (AWS ami-0efda064d1b5e46a5) :white_check_mark:
 - [X] CentOS 7 x86_64 (AWS ami-08998a9a61da37c77) :x: 
   - Fails to install `docker-ce` due to a problem with docker repo. [Public workarounds](https://forums.docker.com/t/docker-ce-stable-x86-64-repo-not-available-https-error-404-not-found-https-download-docker-com-linux-centos-7server-x86-64-stable-repodata-repomd-xml/98965) didn't work either. For this reason, [`setup_dashboard.yml`](ansible/roles/crowdsec/tasks/setup_dashboard.yml) task is only run when OS is Debian, Ubuntu or EL/CentOS 8.
-- [X] CentOS Stream 8 x86_64 (AWS ami-05eaebdafff627949)
+- [X] CentOS Stream 8 x86_64 (AWS ami-05eaebdafff627949) :white_check_mark:
 - [X] CentOS Stream 9 x86_64 (ami-0269dcaea2eafc196)
 - [ ] Amazon Linux 2
 

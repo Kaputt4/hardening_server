@@ -23,19 +23,26 @@
     - ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
     - ansible_distribution_major_version == "8" or ansible_distribution_major_version == "9"
 
+- name: Check if docker-ce.repo is already enabled
+  stat:
+    path: /etc/yum.repos.d/docker-ce.repo
+  register: repo_enabled
+
 - name: Add Docker Repository CentOS
   get_url:
     url: https://download.docker.com/linux/centos/docker-ce.repo
     dest: /etc/yum.repos.d/docker-ce.repo
+    mode: 0644
   become: true
-  when: ansible_distribution == 'CentOS'
+  when: ansible_distribution == 'CentOS' and not repo_enabled.stat.exists
 
 - name: Add Docker Repository RHEL & Amazon
   get_url:
     url: https://download.docker.com/linux/rhel/docker-ce.repo
     dest: /etc/yum.repos.d/docker-ce.repo
+    mode: 0644
   become: true
-  when: ansible_distribution == 'Red Hat Enterprise Linux' or ansible_distribution == 'Amazon'
+  when: (ansible_distribution == 'Red Hat Enterprise Linux' or ansible_distribution == 'Amazon') and not repo_enabled.stat.exists
 
 - name: Install docker-ce EL/CentOS 7
   yum:
