@@ -30,6 +30,16 @@
 - name: Add collections
   include_tasks: collections.yml
 
+- name: Set CrowdSec console variables
+  set_fact:
+    crowdsec_enroll_name: "{{ lookup('env', 'CONSOLE_NAME') }}"
+    crowdsec_enroll_key: "{{ lookup('env', 'CONSOLE_KEY') }}"
+
+- name: Enroll to CrowdSec console
+  command: cscli console enroll --overwrite --name {{ crowdsec_enroll_name }} {{ crowdsec_enroll_key }}
+  become: true
+  changed_when: false
+
 # Not installing dashboard for EL/CentOS 7 or Amazon Linux due to a problem with docker repo
 - name: CrowdSec Dashboard setup Debian
   include_tasks: setup_dashboard.yml
@@ -40,14 +50,4 @@
   when:
     - ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
     - ansible_distribution_major_version == "8" or ansible_distribution_major_version == "9"
-
-- name: Set CrowdSec console variables
-  set_fact:
-    crowdsec_enroll_name: "{{ lookup('env', 'CONSOLE_NAME') }}"
-    crowdsec_enroll_key: "{{ lookup('env', 'CONSOLE_KEY') }}"
-
-- name: Enroll to CrowdSec console
-  command: cscli console enroll --overwrite --name {{ crowdsec_enroll_name }} {{ crowdsec_enroll_key }}
-  become: true
-  changed_when: false
 ...
