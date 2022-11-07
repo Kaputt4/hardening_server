@@ -2,4 +2,5 @@
 # This makes linter to ignore rules/tags listed below fully
 skip_list:
   - 'fqcn-builtins'
-  
+  - 'fqcn-module'
+  - '306' # Disable 'Shells that use pipes should set the pipefail option.' https://github.com/ansible/ansible-lint/issues/497

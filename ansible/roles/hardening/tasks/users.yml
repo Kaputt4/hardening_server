@@ -5,31 +5,31 @@
   set_fact:
     nobody_user: "{{ 'nfsnobody' if ansible_distribution == 'Amazon' else 'nobody' }}"
 
-- name: Check {{ nobody_user }} account password expired
-  shell: chage -l {{ nobody_user }} | egrep "^(Last password change)[[:space:]]*\:( password must be changed)$"
+- name: Check password expiration of {{ nobody_user }}
+  shell: chage -l {{ nobody_user }} | sed -n '6p' | grep "password must be changed"
   register: nobody_expired
-  changed_when: no
-  failed_when: no
+  changed_when: false
+  failed_when: false
 
-- name: Expire {{ nobody_user }} user password
+- name: Expire password of {{ nobody_user }}
   command: passwd -e {{ nobody_user }}
   when: nobody_expired.rc != 0
 
-- name: Check {{ nobody_user }} account expiration
+- name: Check account expiration of {{ nobody_user }}
   shell: chage -l {{ nobody_user }} | sed -n '6p' | grep 45
   register: nobody_expiration
-  changed_when: no
-  failed_when: no
+  changed_when: false
+  failed_when: false
 
-- name: Change {{ nobody_user }} user expiration
+- name: Change account expiration of {{ nobody_user }}
   command: chage -m 2 -M 45 -W 10 {{ nobody_user }}
   when: nobody_expiration.rc != 0
 
 - name: Check sudo account expiration
   shell: chage -l root | sed -n '6p' | grep 45
   register: sudo_expiration
-  changed_when: no
-  failed_when: no
+  changed_when: false
+  failed_when: false
 
 - name: Change sudo account expiration
   command: chage -m 2 -M 45 -W 10 root

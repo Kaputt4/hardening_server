@@ -32,6 +32,7 @@
 - name: Get active firewalld zone
   shell: "firewall-cmd --list-all | grep active"
   changed_when: false
+  failed_when: false
   register: firewalld_zone
 
 - name: Change firewalld zone
