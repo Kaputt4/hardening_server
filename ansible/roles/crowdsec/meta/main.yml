@@ -15,12 +15,12 @@ galaxy_info:
         - all
     - name: EL
       versions:
-      - '7'
-      - '8'
-      - '9'
+        - '7'
+        - '8'
+        - '9'
     - name: Amazon Linux 2
       versions:
-      - all
+        - all
 
   galaxy_tags:
     - ubuntu
