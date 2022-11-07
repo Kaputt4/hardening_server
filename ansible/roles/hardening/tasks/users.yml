@@ -82,6 +82,7 @@
 
 - name: Find users without password
   shell: cat /etc/shadow | cut -d":" -f-2 | grep ":$" | cut -d":" -f1
+  changed_when: false
   register: users_no_passwd
 
 - name: Print users without password warning
@@ -91,6 +92,7 @@
 
 - name: Find superadmin accounts besides root
   shell: cat /etc/passwd | cut -d":" -f1,3 | grep -w 0 | grep -v root | cut -d":" -f1
+  changed_when: false
   register: uid0_no_root
 
 - name: Print UID 0 users warning
@@ -124,3 +126,4 @@
     name: "{{ item }}"
     shell: /sbin/nologin
   with_items: "{{ must_disabled_users }}"
+  when: must_disabled_users is defined
