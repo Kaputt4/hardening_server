@@ -51,7 +51,7 @@ Some __inputs__ are required when manually triggering the action:
 
 - [X] :white_check_mark: CentOS Stream 9 x86_64 (AWS ami-0269dcaea2eafc196)
 
-- [X] Amazon Linux 2 Kernel 5.10 (AWS ami-05c42683296709b61)
+- [X] :white_check_mark: Amazon Linux 2 Kernel 5.10 (AWS ami-05c42683296709b61)
 
 ## TODO list
 
@@ -61,4 +61,4 @@ Some __inputs__ are required when manually triggering the action:
 
 - [ ] Use `community.general.docker_container_info` module in [`tasks/setup_dashboard.yml`](ansible/roles/crowdsec/tasks/setup_dashboard.yml). More info in [`docker_container_info` module docs](https://docs.ansible.com/ansible/latest/collections/community/docker/docker_container_info_module.html#ansible-collections-community-docker-docker-container-info-module).
 
-- [ ] Fix docker repo problem that prevents docker from being installed in EL/CentOS 7 and Amazon Linux. The issue is being discussed on [Docker Forum](https://forums.docker.com/t/docker-ce-stable-x86-64-repo-not-available-https-error-404-not-found-https-download-docker-com-linux-centos-7server-x86-64-stable-repodata-repomd-xml/98965/6) and [GitHub](https://github.com/docker/for-linux/issues/1111). Whenever this is fixed, role [main.yml](ansible/roles/crowdsec/tasks/main.yml) should be edited in order to include the task [`setup_dashboard.yml`](ansible/roles/crowdsec/tasks/setup_dashboard.yml) for every OS (lines 43-52).
+- [X] Fix docker repo problem that prevents `docker-ce` from being installed in EL/CentOS 7 and Amazon Linux. The issue is being discussed on [Docker Forum](https://forums.docker.com/t/docker-ce-stable-x86-64-repo-not-available-https-error-404-not-found-https-download-docker-com-linux-centos-7server-x86-64-stable-repodata-repomd-xml/98965/6) and [GitHub](https://github.com/docker/for-linux/issues/1111). Whenever this is fixed, role [main.yml](ansible/roles/crowdsec/tasks/main.yml) should be edited in order to include the task [`setup_dashboard.yml`](ansible/roles/crowdsec/tasks/setup_dashboard.yml) for every OS (lines 43-52). This has been fixed installing `docker` instead of `docker-ce`, despite what [Docker Docs](https://docs.docker.com/engine/install/centos/) suggest.

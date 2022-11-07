@@ -1,40 +1,41 @@
 ---
-# Install docker Engine on EL/CentOS 7
+# Install docker Engine on EL/CentOS 7, EL/CentOS 8, EL/CentOS 9 and Amazon Linux
 
-- name: Check if docker-ce.repo is already enabled
+- name: Check if docker-ce.repo is already enabled EL/CentOS
   stat:
     path: /etc/yum.repos.d/docker-ce.repo
   register: repo_enabled
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
 
-- name: Add Docker Repository CentOS
+- name: Add Docker Repository CentOS 8 & CentOS 9
   get_url:
     url: https://download.docker.com/linux/centos/docker-ce.repo
     dest: /etc/yum.repos.d/docker-ce.repo
     mode: 0644
   become: true
-  when: ansible_distribution == 'CentOS' and not repo_enabled.stat.exists
+  when:
+    - ansible_distribution == 'CentOS'
+    - ansible_distribution_major_version != "7"
+    - not repo_enabled.stat.exists
 
-- name: Add Docker Repository RHEL
+- name: Add Docker Repository RHEL 8 & RHEL 9
   get_url:
     url: https://download.docker.com/linux/rhel/docker-ce.repo
     dest: /etc/yum.repos.d/docker-ce.repo
     mode: 0644
   become: true
-  when: ansible_distribution == 'Red Hat Enterprise Linux' and not repo_enabled.stat.exists
+  when:
+    - ansible_distribution == 'Red Hat Enterprise Linux'
+    - ansible_distribution_major_version != "7"
+    - not repo_enabled.stat.exists
 
 - name: Install docker-ce package EL/CentOS 7
   yum:
-    name: docker-ce
+    name: docker
     state: present
   when:
     - ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
     - ansible_distribution_major_version == "7"
-
-- name: Install docker package Amazon
-  yum:
-    name: docker
-    state: present
-  when: ansible_distribution == 'Amazon'
 
 - name: Install docker-ce EL/CentOS 8 & EL/CentOS 9
   dnf:
@@ -43,3 +44,9 @@
   when:
     - ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
     - ansible_distribution_major_version == "8" or ansible_distribution_major_version == "9"
+
+- name: Install docker package Amazon
+  yum:
+    name: docker
+    state: present
+  when: ansible_distribution == 'Amazon'

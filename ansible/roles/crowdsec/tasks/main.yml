@@ -40,14 +40,6 @@
   become: true
   changed_when: false
 
-# Not installing dashboard for EL/CentOS 7 due to a problem with docker-ce repo
-- name: CrowdSec Dashboard setup Debian
+- name: CrowdSec Dashboard setup
   include_tasks: setup_dashboard.yml
-  when: ansible_os_family == "Debian" or ansible_distribution == 'Amazon'
-
-- name: CrowdSec Dashboard setup EL/CentOS 8 & EL/CentOS 9
-  include_tasks: setup_dashboard.yml
-  when:
-    - ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
-    - ansible_distribution_major_version == "8" or ansible_distribution_major_version == "9"
 ...

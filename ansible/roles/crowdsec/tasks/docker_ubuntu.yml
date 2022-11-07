@@ -1,5 +1,5 @@
 ---
-# Install docker Engine on Ubuntu
+# Install docker Engine on Debian/Ubuntu
 
 - name: Install required system packages
   apt:
