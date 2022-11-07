@@ -29,5 +29,11 @@
     name: firewalld
     state: started
 
+- name: Get active firewalld zone
+  shell: "firewall-cmd --list-all | grep active"
+  changed_when: false
+  register: firewalld_zone
+
 - name: Change firewalld zone
   command: "firewall-cmd --zone=dmz --permanent --change-interface={{ ansible_default_ipv4.interface }}"
+  when: "'dmz' not in firewalld_zone.stdout"

@@ -3,14 +3,14 @@
 
 - name: Upgrade all packages Ubuntu
   apt:
-    name: '*'
     state: latest
+    name: '*'
   when: ansible_os_family == "Debian"
 
 - name: Upgrade all packages EL/CentOS 7 & Amazon Linux
   yum:
-    name: '*'
     state: latest
+    name: '*'
   when: >
     ((ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux') and
     ansible_distribution_major_version == "7") or
@@ -18,8 +18,8 @@
 
 - name: Upgrade all packages EL/CentOS 8 & 9
   dnf:
-    name: '*'
     state: latest
+    name: '*'
   when:
     - ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
     - ansible_distribution_major_version == "8" or ansible_distribution_major_version == "9"
@@ -28,25 +28,25 @@
   include_tasks: sysctl.yml
   args:
     apply:
-      become: yes
+      become: true
 
 - name: Audit setup
   include_tasks: audit.yml
   args:
     apply:
-      become: yes
+      become: true
 
 - name: Firewalld setup
   include_tasks: firewall.yml
   args:
     apply:
-      become: yes
+      become: true
 
 - name: SELinux setup
   include_tasks: selinux.yml
   args:
     apply:
-      become: yes
+      become: true
 
 - name: Set root password variable
   set_fact:
@@ -61,5 +61,5 @@
   include_tasks: users.yml
   args:
     apply:
-      become: yes
+      become: true
 ...

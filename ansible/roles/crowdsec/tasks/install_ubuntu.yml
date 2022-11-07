@@ -10,7 +10,7 @@
   get_url:
     url: https://packagecloud.io/install/repositories/crowdsec/crowdsec/script.deb.sh
     dest: /root/crowdsecinstaller.sh
-    mode: 0755
+    mode: u=rwx,g=rx,o=rx
   become: true
   when: not crowdsec_installed.stat.exists
 

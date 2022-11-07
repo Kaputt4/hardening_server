@@ -40,7 +40,7 @@
     path: /home/ubuntu
     owner: ubuntu
     group: ubuntu
-    mode: g-w,o-rwx
+    mode: u=rwx,g=rx,o=
   when: ansible_os_family == "Debian"
 
 - name: Change /home/centos permissions
@@ -48,7 +48,7 @@
     path: /home/centos
     owner: centos
     group: centos
-    mode: g-w,o-rwx
+    mode: u=rwx,g=rx,o=
   when:
     - ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
     - ansible_distribution_major_version == "7" or ansible_distribution_major_version == "8"
@@ -58,7 +58,7 @@
     path: /home/ec2-user
     owner: ec2-user
     group: ec2-user
-    mode: g-w,o-rwx
+    mode: u=rwx,g=rx,o=
   when: >
     ((ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux') and
     ansible_distribution_major_version == "9") or
@@ -74,7 +74,7 @@
     path: "{{ current_home }}"
     owner: "{{ current_user }}"
     group: "{{ current_user }}"
-    mode: g-w,o-rwx
+    mode: u=rwx,g=rx,o=
   when:
     - current_user !- "ubuntu"
     - current_user !- "centos"
