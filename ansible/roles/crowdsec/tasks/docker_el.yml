@@ -1,0 +1,62 @@
+---
+# Install docker Engine on EL/CentOS 7
+
+- name: Install required system packages EL/CentOS 7
+  yum:
+    name: yum-utils
+    state: latest
+  when:
+    - ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+    - ansible_distribution_major_version == "7"
+
+- name: Install required system packages Amazon
+  yum:
+    name: yum-utils
+    state: latest
+  when: ansible_distribution == 'Amazon'
+
+- name: Install required system packages EL/CentOS 8
+  dnf:
+    name: yum-utils
+    state: latest
+  when:
+    - ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+    - ansible_distribution_major_version == "8"
+
+- name: Add Docker Repository CentOS
+  yum_repository:
+    name: docker
+    description: Docker Engine repo
+    baseurl: https://download.docker.com/linux/centos/docker-ce.repo
+    state: present
+  when: ansible_distribution == 'CentOS'
+
+- name: Add Docker Repository RHEL & Amazon
+  yum_repository:
+    name: docker
+    description: Docker Engine repo
+    baseurl: https://download.docker.com/linux/rhel/docker-ce.repo
+    state: present
+  when: ansible_distribution == 'Red Hat Enterprise Linux' or ansible_distribution == 'Amazon'
+
+- name: Install docker-ce EL/CentOS 7
+  yum:
+    name: docker-ce
+    state: latest
+  when:
+    - ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+    - ansible_distribution_major_version == "7"
+
+- name: Install docker-ce Amazon
+  yum:
+    name: docker-ce
+    state: latest
+  when: ansible_distribution == 'Amazon'
+
+- name: Install docker-ce EL/CentOS 8
+  dnf:
+    name: docker-ce
+    state: latest
+  when:
+    - ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+    - ansible_distribution_major_version == "8"

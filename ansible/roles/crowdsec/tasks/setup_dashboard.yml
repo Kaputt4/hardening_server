@@ -1,11 +1,23 @@
 ---
 # CrowdSec dashboard installation tasks
 
-- name: Add docker.io package
-  apt:
-    name: docker.io
-    state: present
-  become: true
+- name: Install docker Ubuntu
+  include_tasks: docker_ubuntu.yml
+  when: ansible_os_family == "Debian"
+
+- name: Install docker EL/CentOS 7, EL/CentOS 8 & Amazon
+  include_tasks: docker_el.yml
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux' or ansible_distribution == 'Amazon'
+
+- name: Install docker Amazon
+  include_tasks: docker_el.yml
+  when: ansible_distribution == 'Amazon'
+
+- name: Install docker 
+  include_tasks: docker_el.yml
+  when:
+    - ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+    - ansible_distribution_major_version == "8"
 
 # - name: Check if CrowdSec dashboard is up
 #   community.general.docker_container_info:
@@ -13,7 +25,7 @@
 #   register: dashboard_setup
 
 - name: Check if CrowdSec dashboard is up
-  command: docker ps --format '{{ '{{' }} .Names {{ '}}' }}'
+  command: docker ps -a --format '{{ '{{' }} .Names {{ '}}' }}'
   changed_when: false
   become: true
   register: dashboard_setup

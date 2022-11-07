@@ -3,18 +3,38 @@ Repository with Ansible playbook to harden a server.
 
 [![Hardening](https://github.com/Kaputt4/hardening_server/actions/workflows/hardening.yml/badge.svg)](https://github.com/Kaputt4/hardening_server/actions/workflows/hardening.yml)
 
+Currently, the repository only contains one Ansible role named `crowdsec` that performs the following actions:
+
+- Install [CrowdSec agent](https://docs.docker.com/engine/install/).
+- Install [`crowdsec-firewall-bouncer-iptables` bouncer](https://docs.crowdsec.net/docs/getting_started/install_crowdsec/#install-a-bouncer).
+- Enroll server to [CrowdSec console](https://docs.crowdsec.net/docs/cscli/cscli_console_enroll/).
+- Install [Docker Engine](https://docs.docker.com/engine/install/), as it is required for CrowdSec dashboard.
+- Setup CrowdSec dashboard, deployed with [Metabase](https://www.metabase.com/) and make it globally reachable.
+
 Changes are produced with a GitHub action that has to be manually triggered from [`actions`](https://github.com/Kaputt4/hardening_server/actions) tab.
 
-* SSH key to allow Ansible establish connection with the host must be defined as a GitHub repository secret with name `ANSIBLE_KEY`.
-* CrowdSec console enrollment key must be defined as a GitHub repository secret with name `CONSOLE_KEY`.
-* CrowdSec dashboard login password must be defined as a GitHub repository secret with name `DASHBOARD_PASSWORD`.
+## Requirements
 
-> Remember to set the IP address of the host and the CrowdSec console machine name when manually triggering the GitHub action.
+Some __GitHub repository secrets__ must be present in order for the GitHub action to work:
 
-> CrowdSec dashboard will be __accesible globally from any IP address (0.0.0.0)__. Remember to properly limit the exposure surface.
+- SSH key to allow Ansible establish connection with the host must be defined with name `ANSIBLE_KEY`.
+- CrowdSec console enrollment key must be defined with name `CONSOLE_KEY`.
+- CrowdSec dashboard login password must be defined with name `DASHBOARD_PASSWORD`.
 
-### TODO list
+Two __inputs__ are required when manually triggering the action:
 
-- [ ] Use `community.general.docker_container_info` module in `tasks/setup_dashboard.yml`. More info in [https://docs.ansible.com/ansible/latest/collections/community/docker/docker_container_info_module.html#ansible-collections-community-docker-docker-container-info-module](https://docs.ansible.com/ansible/latest/collections/community/docker/docker_container_info_module.html#ansible-collections-community-docker-docker-container-info-module).
+- Server public IP Address
+- Server name for CrowdSec Console
 
-- [ ] Expect module is not working in `tasks/setup_dashboard.yml` even after `pip3 install docker`, so dashboard is not started.
+> :warning: CrowdSec dashboard will be __globally reachable from any IP address (0.0.0.0)__. Remember to properly limit the exposure surface.
+
+## Supported Operating Systems
+
+- Debian/Ubuntu
+- EL/CentOS 7
+- EL/CentOS 8
+- Amazon Linux
+
+## TODO list
+
+- [ ] Use `community.general.docker_container_info` module in [`tasks/setup_dashboard.yml`](ansible/roles/crowdsec/tasks/setup_dashboard.yml). More info in [https://docs.ansible.com/ansible/latest/collections/community/docker/docker_container_info_module.html#ansible-collections-community-docker-docker-container-info-module](https://docs.ansible.com/ansible/latest/collections/community/docker/docker_container_info_module.html#ansible-collections-community-docker-docker-container-info-module).

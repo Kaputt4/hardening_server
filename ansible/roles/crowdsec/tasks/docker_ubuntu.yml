@@ -1,0 +1,38 @@
+---
+# Install docker Engine on Ubuntu
+
+- name: Install required system packages
+  apt:
+    pkg:
+      - ca-certificates
+      - gpg
+    state: latest
+
+- name: Add Docker GPG apt Key Ubuntu
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+  when: ansible_distribution == 'Ubuntu'
+
+- name: Add Docker GPG apt Key Debian
+  apt_key:
+    url: https://download.docker.com/linux/debian/gpg
+    state: present
+  when: ansible_distribution == 'Debian'
+
+- name: Add Docker Repository Ubuntu
+  apt_repository:
+    repo: deb https://download.docker.com/linux/ubuntu focal stable
+    state: present
+  when: ansible_distribution == 'Ubuntu'
+
+- name: Add Docker Repository Debian
+  apt_repository:
+    repo: deb https://download.docker.com/linux/debian focal stable
+    state: present
+  when: ansible_distribution == 'Debian'
+
+- name: Install docker-ce
+  apt:
+    name: docker-ce
+    state: latest
