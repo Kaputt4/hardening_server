@@ -27,5 +27,5 @@
 - name: Add CrowdSec package
   dnf:
     name: crowdsec
-    state: latest
+    state: present
   become: true

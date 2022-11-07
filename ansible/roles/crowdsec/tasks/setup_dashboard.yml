@@ -13,7 +13,7 @@
   include_tasks: docker_el.yml
   when: ansible_distribution == 'Amazon'
 
-- name: Install docker 
+- name: Install docker
   include_tasks: docker_el.yml
   when:
     - ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'

@@ -6,7 +6,7 @@
     pkg:
       - ca-certificates
       - gpg
-    state: latest
+    state: present
 
 - name: Add Docker GPG apt Key Ubuntu
   apt_key:
@@ -35,4 +35,4 @@
 - name: Install docker-ce
   apt:
     name: docker-ce
-    state: latest
+    state: present

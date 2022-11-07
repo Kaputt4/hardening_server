@@ -27,5 +27,5 @@
 - name: Add CrowdSec package
   yum:
     name: crowdsec
-    state: latest
+    state: present
   become: true
