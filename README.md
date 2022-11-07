@@ -41,10 +41,11 @@ Some __inputs__ are required when manually triggering the action:
 - [X] Ubuntu Desktop 22.04 LTS Jammy Jellyfish :white_check_mark:
 - [X] Ubuntu Server 22.04 LTS Jammy Jellyfish (AWS ami-0efda064d1b5e46a5) :white_check_mark:
 - [X] CentOS 7 x86_64 (AWS ami-08998a9a61da37c77) :x: 
-  - Fails to install `docker-ce` due to a problem with docker repo. [Public workarounds](https://forums.docker.com/t/docker-ce-stable-x86-64-repo-not-available-https-error-404-not-found-https-download-docker-com-linux-centos-7server-x86-64-stable-repodata-repomd-xml/98965) didn't work either. For this reason, `setup_dashboard.yml` task is only run when OS is Debian, Ubuntu or EL/CentOS 8.
+  - Fails to install `docker-ce` due to a problem with docker repo. [Public workarounds](https://forums.docker.com/t/docker-ce-stable-x86-64-repo-not-available-https-error-404-not-found-https-download-docker-com-linux-centos-7server-x86-64-stable-repodata-repomd-xml/98965) didn't work either. For this reason, [`setup_dashboard.yml`](ansible/roles/crowdsec/tasks/setup_dashboard.yml) task is only run when OS is Debian, Ubuntu or EL/CentOS 8.
 - [ ] CentOS 8
 - [ ] Amazon Linux 2
 
 ## TODO list
 
 - [ ] Use `community.general.docker_container_info` module in [`tasks/setup_dashboard.yml`](ansible/roles/crowdsec/tasks/setup_dashboard.yml). More info in [https://docs.ansible.com/ansible/latest/collections/community/docker/docker_container_info_module.html#ansible-collections-community-docker-docker-container-info-module](https://docs.ansible.com/ansible/latest/collections/community/docker/docker_container_info_module.html#ansible-collections-community-docker-docker-container-info-module).
+- [ ] Fix docker repo problem that prevents docker from being installed in EL/CentOS 7 and Amazon Linux. The issue is being discussed on [Docker Forum](https://forums.docker.com/t/docker-ce-stable-x86-64-repo-not-available-https-error-404-not-found-https-download-docker-com-linux-centos-7server-x86-64-stable-repodata-repomd-xml/98965/6) and [GitHub](https://github.com/docker/for-linux/issues/1111). Whenever this is fixed, role [main.yml](ansible/roles/crowdsec/tasks/main.yml) should be edited in order to include the task [`setup_dashboard.yml`](ansible/roles/crowdsec/tasks/setup_dashboard.yml) for every OS (lines 30-39).
