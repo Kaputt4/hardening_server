@@ -13,6 +13,11 @@
   include_tasks: docker_el.yml
   when: ansible_distribution == 'Amazon'
 
+- name: Make sure a service unit is running
+  systemd:
+    state: started
+    name: docker
+
 # - name: Check if CrowdSec dashboard is up
 #   community.general.docker_container_info:
 #     name: crowdsec-metabase
