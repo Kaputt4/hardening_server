@@ -1,7 +1,7 @@
 # Hardening a Server
 Repository with Ansible playbook to harden a server.
 
-[![Hardening](https://github.com/Kaputt4/hardening_server/actions/workflows/hardening.yml/badge.svg)](https://github.com/Kaputt4/hardening_server/actions/workflows/hardening.yml)
+[![Hardening](https://github.com/Kaputt4/hardening_server/actions/workflows/hardening.yml/badge.svg)](https://github.com/Kaputt4/hardening_server/actions/workflows/hardening.yml) [![dependabot badge](https://badgen.net/github/dependabot/Kaputt4/hardening_server?icon=dependabot)](https://github.com/Kaputt4/hardening_server/network/updates)
 
 Currently, the repository only contains one Ansible role named `crowdsec` that performs the following actions:
 
@@ -34,6 +34,13 @@ Two __inputs__ are required when manually triggering the action:
 - EL/CentOS 7
 - EL/CentOS 8
 - Amazon Linux
+
+## Tested Operating Systems (so far)
+
+- [X] Ubuntu 22.04 Jammy Jellyfish
+- [ ] CentOS 7
+- [ ] CentOS 8
+- [ ] Amazon Linux 2
 
 ## TODO list
 
