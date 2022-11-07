@@ -25,16 +25,16 @@
 
 - name: Add Docker Repository CentOS
   yum_repository:
-    name: docker
-    description: Docker Engine repo
+    name: docker-ce-stable
+    description: Docker CE Stable
     baseurl: https://download.docker.com/linux/centos/docker-ce.repo
     state: present
   when: ansible_distribution == 'CentOS'
 
 - name: Add Docker Repository RHEL & Amazon
   yum_repository:
-    name: docker
-    description: Docker Engine repo
+    name: docker-ce-stable
+    description: Docker CE Stable
     baseurl: https://download.docker.com/linux/rhel/docker-ce.repo
     state: present
   when: ansible_distribution == 'Red Hat Enterprise Linux' or ansible_distribution == 'Amazon'
