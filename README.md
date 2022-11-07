@@ -21,10 +21,11 @@ Some __GitHub repository secrets__ must be present in order for the GitHub actio
 - CrowdSec console enrollment key must be defined with name `CONSOLE_KEY`.
 - CrowdSec dashboard login password must be defined with name `DASHBOARD_PASSWORD`.
 
-Two __inputs__ are required when manually triggering the action:
+Some __inputs__ are required when manually triggering the action:
 
 - Server public IP Address
 - Server name for CrowdSec Console
+- SSH username
 
 > :warning: CrowdSec dashboard will be __globally reachable from any IP address (0.0.0.0)__. Remember to properly limit the exposure surface.
 
@@ -37,8 +38,9 @@ Two __inputs__ are required when manually triggering the action:
 
 ## Tested Operating Systems (so far)
 
-- [X] Ubuntu 22.04 Jammy Jellyfish
-- [ ] CentOS 7
+- [X] Ubuntu Desktop 22.04 LTS Jammy Jellyfish
+- [X] Ubuntu Server 22.04 LTS Jammy Jellyfish (AWS ami-0efda064d1b5e46a5)
+- [X] CentOS 7 x86_64 (AWS ami-08998a9a61da37c77)
 - [ ] CentOS 8
 - [ ] Amazon Linux 2
 

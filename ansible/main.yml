@@ -1,6 +1,5 @@
 ---
 - hosts: servers
-  user: ubuntu
   become: true
   roles:
     - role: crowdsec

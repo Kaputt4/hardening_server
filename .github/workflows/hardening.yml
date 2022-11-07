@@ -8,6 +8,9 @@ on:
       console_name:
         description: Server name for CrowdSec Console
         required: true
+      ssh_user:
+        description: SSH username
+        required: true
 
 jobs:
   validate:
@@ -50,6 +53,11 @@ jobs:
           do
           envsubst < "$file" > ${file%".tpl"};
           done
+      - name: Convert ansible config template
+        env:
+          SSH_USER: ${{ github.event.inputs.ssh_user }}
+          run:
+            envsubst < ansible.cfg.tpl > ansible.cfg
       - name: Prepare SSH key
         run: |
           echo "${{ secrets.ANSIBLE_KEY }}" | base64 -d > ansible/config/ansible.key
