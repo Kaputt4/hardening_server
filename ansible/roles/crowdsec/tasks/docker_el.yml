@@ -5,7 +5,9 @@
   stat:
     path: /etc/yum.repos.d/docker-ce.repo
   register: repo_enabled
-  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+  when:
+    - ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+    - ansible_distribution_major_version != "7"
 
 - name: Add Docker Repository CentOS 8 & CentOS 9
   get_url:
@@ -29,7 +31,7 @@
     - ansible_distribution_major_version != "7"
     - not repo_enabled.stat.exists
 
-- name: Install docker-ce package EL/CentOS 7
+- name: Install docker package EL/CentOS 7
   yum:
     name: docker
     state: present
