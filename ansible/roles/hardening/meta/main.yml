@@ -1,0 +1,34 @@
+galaxy_info:
+  author: Kaputt4
+  description: role to harden a server
+
+  license: license (ALL RIGHTS RESERVED)
+
+  min_ansible_version: '2.9'
+
+  platforms:
+    - name: Ubuntu
+      versions:
+        - all
+    - name: Debian
+      versions:
+        - all
+    - name: EL
+      versions:
+        - '7'
+        - '8'
+        - '9'
+    - name: Amazon Linux 2
+      versions:
+        - all
+
+  galaxy_tags:
+    - ubuntu
+    - debian
+    - rhel
+    - centos
+    - amazonlinux
+    - hardening
+    - security
+
+dependencies: []

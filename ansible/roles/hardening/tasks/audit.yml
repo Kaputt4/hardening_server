@@ -1,0 +1,52 @@
+---
+# Setup auditd service
+
+- name: Install auditd Ubuntu
+  apt:
+    name: auditd
+    state: present
+  when: ansible_os_family == "Debian"
+
+- name: Install auditd EL/CentOS 7 & Amazon
+  yum:
+    pkg: 
+      - audit
+      - audit-libs
+    state: present
+  when: >
+    ((ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux') and
+    ansible_distribution_major_version == "7") or
+    ansible_distribution == 'Amazon'
+
+- name: Install auditd EL/CentOS 8 & 9
+  dnf:
+    pkg: 
+      - audit
+      - audit-libs
+    state: present
+  when:
+    - ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+    - ansible_distribution_major_version == "8" or ansible_distribution_major_version == "9"
+
+- name: Modifying audit rules file
+  template:
+    src: audit.rules.j2
+    dest: "/etc/audit/rules.d/audit.rules"
+    force: yes
+
+- name: Modifying audit daemon configuration file
+  template:
+    src: auditd.conf.j2
+    dest: "/etc/audit/auditd.conf"
+    force: yes
+
+- name: Enable auditd service
+  systemd:
+    name: auditd
+    enabled: yes
+
+- name: Restart auditd service
+  service:
+    name: auditd
+    state: restarted
+    use: service

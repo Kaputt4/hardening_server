@@ -1,0 +1,6 @@
+---
+# Handlers file for hardening role
+
+- name: Reboot
+  reboot:
+    reboot_timeout: 600

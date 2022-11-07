@@ -1,5 +1,5 @@
 ---
-# Tasks file for crowdsec-plus-console
+# Tasks file for crowdsec-plus-console role
 
 # - fail:
 #     msg: "crowdsec role requires 'crowdsec_enroll_key' and 'crowdsec_enroll_name' to be defined"
@@ -11,15 +11,12 @@
   include_tasks: install_ubuntu.yml
   when: ansible_os_family == "Debian"
 
-- name: Installation for EL/CentOS 7
+- name: Installation for EL/CentOS 7 & Amazon
   include_tasks: install_el7.yml
-  when:
-    - ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
-    - ansible_distribution_major_version == "7"
-
-- name: Installation for Amazon Linux
-  include_tasks: install_el7.yml
-  when: ansible_distribution == 'Amazon'
+  when: >
+    ((ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux') and
+    ansible_distribution_major_version == "7") or
+    ansible_distribution == 'Amazon'
 
 - name: Installation for EL/CentOS 8 & EL/CentOS 9
   include_tasks: install_el8.yml

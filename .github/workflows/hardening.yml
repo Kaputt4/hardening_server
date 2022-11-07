@@ -13,20 +13,6 @@ on:
         required: true
 
 jobs:
-  validate:
-    name: Validate Ansible code
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
-    steps:
-      - name: Checkout main
-        uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8
-        with:
-          fetch-depth: 0
-      - name: Run ansible-lint
-        uses: ansible-community/ansible-lint-action@27c37f9001153675ee6abcadcd722bcbdafaba08
-        with:
-          path: "ansible/"
-
   ansible:
     name: Run Ansible hardening playbook
     runs-on: ubuntu-latest
@@ -76,6 +62,7 @@ jobs:
           CONSOLE_NAME: ${{ github.event.inputs.console_name }}
           CONSOLE_KEY: ${{ secrets.CONSOLE_KEY }}
           DASHBOARD_PASSWORD: ${{ secrets.DASHBOARD_PASSWORD }}
+          ROOT_PASSWORD: ${{ secrets.ROOT_PASSWORD }}
         run: |
           ansible-playbook ansible/main.yml \
             --diff \

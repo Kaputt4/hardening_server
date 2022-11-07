@@ -2,9 +2,17 @@
 
 Repository with Ansible playbook to harden a server.
 
-[![Hardening](https://github.com/Kaputt4/hardening_server/actions/workflows/hardening.yml/badge.svg)](https://github.com/Kaputt4/hardening_server/actions/workflows/hardening.yml) [![dependabot badge](https://badgen.net/github/dependabot/Kaputt4/hardening_server?icon=dependabot)](https://github.com/Kaputt4/hardening_server/network/updates)
+[![Hardening](https://github.com/Kaputt4/hardening_server/actions/workflows/hardening.yml/badge.svg)](https://github.com/Kaputt4/hardening_server/actions/workflows/hardening.yml) [![Ansible Lint](https://github.com/Kaputt4/hardening_server/actions/workflows/lint.yml/badge.svg)](https://github.com/Kaputt4/hardening_server/actions/workflows/lint.yml) [![dependabot badge](https://badgen.net/github/dependabot/Kaputt4/hardening_server?icon=dependabot)](https://github.com/Kaputt4/hardening_server/network/updates)
 
-Currently, the repository only contains one Ansible role named `crowdsec` that performs the following actions:
+## Roles
+
+Currently, the repository contains two Ansible roles: `crowdsec` and `hardening`.
+
+Changes are produced with a GitHub action named `hardening` that has to be manually triggered from [`actions`](https://github.com/Kaputt4/hardening_server/actions/workflows/hardening.yml) tab.
+
+### crowdsec
+
+Role `crowdsec` performs the following actions:
 
 - Install [CrowdSec agent](https://docs.docker.com/engine/install/).
 - Install [`crowdsec-firewall-bouncer-iptables` bouncer](https://docs.crowdsec.net/docs/getting_started/install_crowdsec/#install-a-bouncer).
@@ -12,17 +20,42 @@ Currently, the repository only contains one Ansible role named `crowdsec` that p
 - Install [Docker Engine](https://docs.docker.com/engine/install/), as it is required for CrowdSec dashboard.
 - Setup CrowdSec dashboard, deployed with [Metabase](https://www.metabase.com/) and make it globally reachable.
 
-Changes are produced with a GitHub action that has to be manually triggered from [`actions`](https://github.com/Kaputt4/hardening_server/actions) tab.
+### hardening
+
+Role `hardening` performs the following actions:
+
+- Upgrade the system using `apt`, `yum` or `dnf`.
+- Configure kernel parameters using `sysctl`.
+- Install and setup auditd service.
+- Install and setup firewalld service and change zone to `dmz`, which is identic to `public` (default) but only allows `SSH` service, removing access to `cockpit` and `dhcpv6-client`, which are allowed by `public` zone.
+- Install and setup SELinux enforcing mode.
+- Change users configuration:
+  - Expire `nobody`/`nfsnobody` user password.
+  - Change `nobody`/`nfsnobody` and `sudo` account expiration.
+  - Change `root` user password for value in `ROOT_PASSWORD` repository secret (see details in [Requirements](##requirements) section).
+  - Limit `/home/user` permissions.
+  - Alert of users without passwords.
+  - Alert of users with UID 0 that are not `root` user.
+  - Disable enabled users that are not in [`root`, `ubuntu`, `centos`, `ec2-user`, `halt`, `shutdown`, <<`current_user`>>].
+
+Audit logs can be seen in `audit.log` file with the following command:
+
+```sh
+tail -f /var/log/audit/audit.log
+```
+
+> `audit.rules.j2` template file has been obtained from [Neo23x0/auditd repository](https://github.com/Neo23x0/auditd) and used as is, which keeps a large collection of auditd rules applicable to a very wide scope of machines, published under Apacje License 2.0. Refer to that repository for further information.
 
 ## Requirements
 
-Some __GitHub repository secrets__ must be present in order for the GitHub action to work:
+Some __GitHub repository secrets__ must be present in order for the GitHub `hardening` action to work:
 
 - SSH key to allow Ansible establish connection with the host must be defined with name `ANSIBLE_KEY`.
 - CrowdSec console enrollment key must be defined with name `CONSOLE_KEY`.
 - CrowdSec dashboard login password must be defined with name `DASHBOARD_PASSWORD`.
+- System `root` user password must be defined with name `ROOT_PASSWORD`.
 
-Some __inputs__ are required when manually triggering the action:
+Some __inputs__ are required when manually triggering the `hardening` action:
 
 - Server public IP Address
 - Server name for CrowdSec Console

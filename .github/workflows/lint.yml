@@ -1,0 +1,24 @@
+name: Ansible Lint
+on: 
+  pull_request:
+    branches: [ main ]
+    paths:
+      - 'ansible/**'
+  push:
+    branches: [ main ]
+    paths:
+      - 'ansible/**'
+
+jobs:
+  validate:
+    name: Validate Ansible code
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8
+        with:
+          fetch-depth: 0
+      - name: Run ansible-lint
+        uses: ansible-community/ansible-lint-action@27c37f9001153675ee6abcadcd722bcbdafaba08
+        with:
+          path: "ansible/"
