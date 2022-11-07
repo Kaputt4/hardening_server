@@ -71,9 +71,9 @@
 
 - name: Change current user's /home permissions
   file:
-    path: {{ current_home }}
-    owner: {{ current_user }}
-    group: {{ current_user }}
+    path: '{{ current_home }}'
+    owner: '{{ current_user }}'
+    group: '{{ current_user }}'
     mode: g-w,o-rwx
   when:
     - current_user !- "ubuntu"
