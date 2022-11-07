@@ -27,6 +27,9 @@
     - ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
     - ansible_distribution_major_version == "8"
 
+- name: Add collections
+  include_tasks: collections.yml
+
 # Not installing dashboard for EL/CentOS 7 or Amazon Linux due to a problem with docker repo
 - name: CrowdSec Dashboard setup Debian
   include_tasks: setup_dashboard.yml
