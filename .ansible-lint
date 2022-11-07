@@ -4,3 +4,4 @@ skip_list:
   - 'fqcn-builtins'
   - 'fqcn-module'
   - '306' # Disable 'Shells that use pipes should set the pipefail option.' https://github.com/ansible/ansible-lint/issues/497
+  - '403' # Disable 'Package installs should not use latest' https://github.com/ansible/ansible-lint/issues/479
