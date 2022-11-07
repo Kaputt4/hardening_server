@@ -14,15 +14,15 @@
   become: true
   when: ansible_distribution == 'CentOS' and not repo_enabled.stat.exists
 
-- name: Add Docker Repository RHEL & Amazon
+- name: Add Docker Repository RHEL
   get_url:
     url: https://download.docker.com/linux/rhel/docker-ce.repo
     dest: /etc/yum.repos.d/docker-ce.repo
     mode: 0644
   become: true
-  when: (ansible_distribution == 'Red Hat Enterprise Linux' or ansible_distribution == 'Amazon') and not repo_enabled.stat.exists
+  when: ansible_distribution == 'Red Hat Enterprise Linux' and not repo_enabled.stat.exists
 
-- name: Install docker-ce EL/CentOS 7
+- name: Install docker-ce package EL/CentOS 7
   yum:
     name: docker-ce
     state: present
@@ -30,7 +30,7 @@
     - ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
     - ansible_distribution_major_version == "7"
 
-- name: Install docker-ce Amazon
+- name: Install docker package Amazon
   yum:
     name: docker
     state: present

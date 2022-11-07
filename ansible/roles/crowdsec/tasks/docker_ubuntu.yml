@@ -32,7 +32,7 @@
     state: present
   when: ansible_distribution == 'Debian'
 
-- name: Install docker-ce
+- name: Install docker-ce package
   apt:
     name: docker-ce
     state: present
