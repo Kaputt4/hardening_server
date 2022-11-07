@@ -56,8 +56,7 @@ jobs:
       - name: Convert ansible config template
         env:
           SSH_USER: ${{ github.event.inputs.ssh_user }}
-          run:
-            envsubst < ansible.cfg.tpl > ansible.cfg
+          run: envsubst < ansible.cfg.tpl > ansible.cfg
       - name: Prepare SSH key
         run: |
           echo "${{ secrets.ANSIBLE_KEY }}" | base64 -d > ansible/config/ansible.key
