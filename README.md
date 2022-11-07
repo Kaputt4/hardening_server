@@ -10,7 +10,7 @@ Currently, the repository contains two Ansible roles: `crowdsec` and `hardening`
 
 Changes are produced with a GitHub action named `hardening` that has to be manually triggered from [`actions`](https://github.com/Kaputt4/hardening_server/actions/workflows/hardening.yml) tab.
 
-### crowdsec
+### `crowdsec` role
 
 Role `crowdsec` performs the following actions:
 
@@ -20,7 +20,7 @@ Role `crowdsec` performs the following actions:
 - Install [Docker Engine](https://docs.docker.com/engine/install/), as it is required for CrowdSec dashboard.
 - Setup CrowdSec dashboard, deployed with [Metabase](https://www.metabase.com/) and make it globally reachable.
 
-### hardening
+### `hardening` role
 
 Role `hardening` performs the following actions:
 
@@ -48,6 +48,8 @@ tail -f /var/log/audit/audit.log
 
 ## Requirements
 
+### GitHub repository secrets
+
 Some __GitHub repository secrets__ must be present in order for the GitHub `hardening` action to work:
 
 - SSH key to allow Ansible establish connection with the host must be defined with name `ANSIBLE_KEY`.
@@ -55,11 +57,21 @@ Some __GitHub repository secrets__ must be present in order for the GitHub `hard
 - CrowdSec dashboard login password must be defined with name `DASHBOARD_PASSWORD`.
 - System `root` user password must be defined with name `ROOT_PASSWORD`.
 
-Some __inputs__ are required when manually triggering the `hardening` action:
+The secrets tab should look like follows:
 
-- Server public IP Address
-- Server name for CrowdSec Console
+<img src="https://user-images.githubusercontent.com/73181608/200427461-7fcd30dd-d6b4-4647-8aa7-eced20221166.png" width="70%">
+
+### GitHub `hardening` action inputs
+
+Some __string inputs__ are required when manually triggering the `hardening` action:
+
+- Server public IP Address for SSH connection
+- Server name for displaying in CrowdSec Console
 - SSH username
+- _The workflow branch must be `main` in order for the workflow to run. It cannot be changed._
+
+<img src="https://user-images.githubusercontent.com/73181608/200428209-413255e6-3a46-4e43-b95c-18775c09103f.png" width="25%">
+
 
 > :warning: CrowdSec dashboard will be __globally reachable from any IP address (0.0.0.0)__. Remember to properly limit the exposure surface.
 
@@ -73,17 +85,14 @@ Some __inputs__ are required when manually triggering the `hardening` action:
 
 ## Tested Operating Systems (so far)
 
-- [X] :white_check_mark: Ubuntu Desktop 22.04 LTS Jammy Jellyfish
-
-- [X] :white_check_mark: Ubuntu Server 22.04 LTS Jammy Jellyfish (AWS ami-0efda064d1b5e46a5)
-
-- [X] :white_check_mark: CentOS 7 x86_64 (AWS ami-08998a9a61da37c77)
-
-- [X] :white_check_mark: CentOS Stream 8 x86_64 (AWS ami-05eaebdafff627949)
-
-- [X] :white_check_mark: CentOS Stream 9 x86_64 (AWS ami-0269dcaea2eafc196)
-
-- [X] :white_check_mark: Amazon Linux 2 Kernel 5.10 (AWS ami-05c42683296709b61)
+| OS version                               | Platform                  | Status             |
+|------------------------------------------|---------------------------|--------------------|
+| Ubuntu Desktop 22.04 LTS Jammy Jellyfish | Desktop                   | :white_check_mark: |
+| Ubuntu Server 22.04 LTS Jammy Jellyfish  | AWS ami-0efda064d1b5e46a5 | :white_check_mark: |
+| CentOS 7 x86_64                          | AWS ami-08998a9a61da37c77 | :white_check_mark: |
+| CentOS Stream 8 x86_64                   | AWS ami-05eaebdafff627949 | :white_check_mark: |
+| CentOS Stream 9 x86_64                   | AWS ami-0269dcaea2eafc196 | :white_check_mark: |
+| Amazon Linux 2 Kernel 5.10               | AWS ami-05c42683296709b61 | :white_check_mark: |
 
 ## TODO list
 
