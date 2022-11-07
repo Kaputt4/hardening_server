@@ -2,7 +2,7 @@
 # Change users configuration
 
 - name: Set env with nobody/nfsnobody username
-  set_fact: 
+  set_fact:
     nobody_user: "{{ 'nfsnobody' if ansible_distribution == 'Amazon' else 'nobody' }}"
 
 - name: Check {{ nobody_user }} account password expired
@@ -71,9 +71,9 @@
 
 - name: Change current user's /home permissions
   file:
-    path: '{{ current_home }}'
-    owner: '{{ current_user }}'
-    group: '{{ current_user }}'
+    path: "{{ current_home }}"
+    owner: "{{ current_user }}"
+    group: "{{ current_user }}"
     mode: g-w,o-rwx
   when:
     - current_user !- "ubuntu"
@@ -107,13 +107,17 @@
     must_enabled_users:
       - root
       - ubuntu
-      - {{ current_user }}
+      - "{{ current_user }}"
       - centos
       - ec2-user
       - halt
       - shutdown
   set_fact:
-    must_disabled_users: "{{ getent_passwd | difference(getent_passwd | dict2items | json_query('[? contains(value,`/sbin/nologin`)].key')) | difference(must_enabled_users) }}"
+    must_disabled_users: "{{ getent_passwd \
+     | difference(getent_passwd \
+     | dict2items \
+     | json_query('[? contains(value,`/sbin/nologin`)].key')) \
+     | difference(must_enabled_users) }}"
 
 - name: Disable enabled system users
   user:
