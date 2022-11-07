@@ -35,7 +35,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: Setup Python
-        uses: actions/setup-python@13a464fa1180c0025831475fa35bb1878b1a4728
+        uses: actions/setup-python@13ae5bb136fac2878aff31522b9efb785519f984
         with:
           python-version: '3.10'
       - name: Install Python dependencies
