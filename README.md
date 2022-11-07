@@ -49,9 +49,9 @@ Some __inputs__ are required when manually triggering the action:
 
 - [X] :white_check_mark: CentOS Stream 8 x86_64 (AWS ami-05eaebdafff627949)
 
-- [X] CentOS Stream 9 x86_64 (ami-0269dcaea2eafc196)
+- [X] :white_check_mark: CentOS Stream 9 x86_64 (AWS ami-0269dcaea2eafc196)
 
-- [ ] Amazon Linux 2
+- [X] Amazon Linux 2 Kernel 5.10 (AWS ami-05c42683296709b61)
 
 ## TODO list
 

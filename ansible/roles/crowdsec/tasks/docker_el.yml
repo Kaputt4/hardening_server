@@ -1,28 +1,6 @@
 ---
 # Install docker Engine on EL/CentOS 7
 
-- name: Install required system packages EL/CentOS 7
-  yum:
-    name: yum-utils
-    state: present
-  when:
-    - ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
-    - ansible_distribution_major_version == "7"
-
-- name: Install required system packages Amazon
-  yum:
-    name: yum-utils
-    state: present
-  when: ansible_distribution == 'Amazon'
-
-- name: Install required system packages EL/CentOS 8 & EL/CentOS 9
-  dnf:
-    name: yum-utils
-    state: present
-  when:
-    - ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
-    - ansible_distribution_major_version == "8" or ansible_distribution_major_version == "9"
-
 - name: Check if docker-ce.repo is already enabled
   stat:
     path: /etc/yum.repos.d/docker-ce.repo
@@ -54,7 +32,7 @@
 
 - name: Install docker-ce Amazon
   yum:
-    name: docker-ce
+    name: docker
     state: present
   when: ansible_distribution == 'Amazon'
 
