@@ -27,7 +27,6 @@ on:
 
 jobs:
   ansible_lint:
-    name: Lint Ansible code
     uses: ./.github/workflows/lint.yml
   ansible_playbook:
     name: Run Ansible hardening playbook

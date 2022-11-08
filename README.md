@@ -8,7 +8,7 @@ Repository with Ansible playbook to harden a server.
 
 Currently, the repository contains two Ansible roles: `crowdsec` and `hardening`.
 
-Changes are produced with a GitHub action named `hardening` that has to be manually triggered from [`actions`](https://github.com/Kaputt4/hardening_server/actions/workflows/hardening.yml) tab.
+Changes are produced with a GitHub workflow named `hardening` that has to be manually triggered from [`actions`](https://github.com/Kaputt4/hardening_server/actions/workflows/hardening.yml) tab.
 
 ### `crowdsec` role
 
@@ -50,7 +50,7 @@ tail -f /var/log/audit/audit.log
 
 ### GitHub repository secrets
 
-Some __GitHub repository secrets__ must be present in order for the GitHub `hardening` action to work:
+Some __GitHub repository secrets__ must be present in order for the GitHub `hardening` workflow to work:
 
 - SSH key to allow Ansible establish connection with the host must be defined with name `ANSIBLE_KEY`.
 - CrowdSec console enrollment key must be defined with name `CONSOLE_KEY`.
@@ -61,15 +61,15 @@ The secrets tab should look like follows:
 
 <img src="https://user-images.githubusercontent.com/73181608/200427461-7fcd30dd-d6b4-4647-8aa7-eced20221166.png" width="70%">
 
-### GitHub `hardening` action inputs
+### GitHub `hardening` workflow inputs
 
-Some __string inputs__ are required when manually triggering the `hardening` action:
+Some __string inputs__ are required when manually triggering the `hardening` workflow:
 
 - Server public IP Address for SSH connection
 - Server name for displaying in CrowdSec Console
 - SSH username
-- Run `crowdsec` role checkbox: this value is embedded in [vars/main.yml](ansible/vars/main.yml) when running the `hardening` action. However, a default `true` value is also defined in [defaults/main.yml](ansible/defaults/main.yml).
-- Run `hardening` role checkbox: this value is embedded in [vars/main.yml](ansible/vars/main.yml) when running the `hardening` action. However, a default `true` value is also defined in [defaults/main.yml](ansible/defaults/main.yml).
+- Run `crowdsec` role checkbox: this value is embedded in [vars/main.yml](ansible/vars/main.yml) when running the `hardening` workflow. However, a default `true` value is also defined in [defaults/main.yml](ansible/defaults/main.yml).
+- Run `hardening` role checkbox: this value is embedded in [vars/main.yml](ansible/vars/main.yml) when running the `hardening` workflow. However, a default `true` value is also defined in [defaults/main.yml](ansible/defaults/main.yml).
 - _The workflow branch must be `main` in order for the workflow to run. It cannot be changed._
 
 <img src="https://user-images.githubusercontent.com/73181608/200428209-413255e6-3a46-4e43-b95c-18775c09103f.png" width="25%">
