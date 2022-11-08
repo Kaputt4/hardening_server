@@ -4,3 +4,6 @@
   roles:
     - role: crowdsec
       tags: ['crowdsec']
+
+    - role: hardening
+      tags: ['hardening']
