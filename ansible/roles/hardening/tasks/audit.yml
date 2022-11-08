@@ -46,9 +46,4 @@
   systemd:
     name: auditd
     enabled: true
-
-- name: Restart auditd service
-  service:
-    name: auditd
-    state: restarted
-    use: service
+  notify: Restart auditd

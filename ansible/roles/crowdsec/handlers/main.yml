@@ -1,2 +1,8 @@
 ---
 # Handlers file for crowdsec role
+
+- name: Restart crowdsec
+  service:
+    name: crowdsec
+    state: restarted
+    use: service

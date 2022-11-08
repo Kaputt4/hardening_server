@@ -4,3 +4,9 @@
 - name: Reboot
   reboot:
     reboot_timeout: 600
+
+- name: Restart auditd
+  service:
+    name: auditd
+    state: restarted
+    use: service
