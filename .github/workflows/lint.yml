@@ -8,9 +8,10 @@ on:
     branches: [ main ]
     paths:
       - 'ansible/**'
+  workflow_call:
 
 jobs:
-  validate:
+  ansible_lint:
     name: Validate Ansible code
     runs-on: ubuntu-latest
     steps:
