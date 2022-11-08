@@ -12,6 +12,8 @@ Changes are produced with a GitHub workflow named `hardening` that has to be man
 
 ### `crowdsec` role
 
+This role is related to [CrowdSec](https://www.crowdsec.net/), an open-source Intrusion Prevention System (IPS) that protects online services by acting upon threats.
+
 Role `crowdsec` performs the following actions:
 
 - Install [CrowdSec agent](https://docs.docker.com/engine/install/).
@@ -20,6 +22,23 @@ Role `crowdsec` performs the following actions:
 - Install [Docker Engine](https://docs.docker.com/engine/install/), as it is required for CrowdSec dashboard.
 - Setup CrowdSec dashboard, deployed with [Metabase](https://www.metabase.com/) and make it globally reachable.
 
+These are some useful CrowdSec commands. You can see [cscli](https://docs.crowdsec.net/docs/cscli/cscli/) docs for more information.
+
+```sh
+# Check CrowdSec logs
+tail -f /var/log/crowdsec.log
+
+# List decisions and alerts
+cscli decisions list
+cscli alerts list
+
+# List CrowdSec metrics
+cscli metrics
+
+# List installed parsers, collections, scenarios and postoverflows
+cscli hub list
+```
+
 <br>
 
 > :warning: __WARNING__: CrowdSec dashboard will be __globally reachable from any IP address (0.0.0.0)__. Remember to properly limit the exposure surface.
@@ -27,6 +46,8 @@ Role `crowdsec` performs the following actions:
 <br>
 
 ### `hardening` role
+
+This role develops some common hardening tasks that are recommended to carry out in Linux servers or desktop machines.
 
 Role `hardening` performs the following actions:
 
@@ -42,7 +63,7 @@ Role `hardening` performs the following actions:
   - Limit `/home/user` permissions.
   - Alert of users without passwords.
   - Alert of users with UID 0 that are not `root` user.
-  - Disable enabled users that are not in [`root`, `ubuntu`, `centos`, `ec2-user`, `halt`, `shutdown`, <<`current_user`>>].
+  - Disable enabled users that are not in [`root`, `ubuntu`, `centos`, `ec2-user`, `halt`, `shutdown`, <<`current_user`>>], being <<`current_user`>> the user that is used for the SSH connection.
 
 <br>
 
