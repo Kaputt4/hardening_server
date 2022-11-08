@@ -20,6 +20,12 @@ Role `crowdsec` performs the following actions:
 - Install [Docker Engine](https://docs.docker.com/engine/install/), as it is required for CrowdSec dashboard.
 - Setup CrowdSec dashboard, deployed with [Metabase](https://www.metabase.com/) and make it globally reachable.
 
+<br>
+
+> :warning: __WARNING__: CrowdSec dashboard will be __globally reachable from any IP address (0.0.0.0)__. Remember to properly limit the exposure surface.
+
+<br>
+
 ### `hardening` role
 
 Role `hardening` performs the following actions:
@@ -38,13 +44,19 @@ Role `hardening` performs the following actions:
   - Alert of users with UID 0 that are not `root` user.
   - Disable enabled users that are not in [`root`, `ubuntu`, `centos`, `ec2-user`, `halt`, `shutdown`, <<`current_user`>>].
 
+<br>
+
 Audit logs can be seen in `audit.log` file with the following command:
 
 ```sh
 tail -f /var/log/audit/audit.log
 ```
 
-> `audit.rules.j2` template file has been obtained from [Neo23x0/auditd repository](https://github.com/Neo23x0/auditd) and used as is, which keeps a large collection of auditd rules applicable to a very wide scope of machines, published under Apacje License 2.0. Refer to that repository for further information.
+<br>
+
+> :clap: __Attribution__: `audit.rules.j2` template file has been obtained from [Neo23x0/auditd repository](https://github.com/Neo23x0/auditd) and used as is. It keeps a large collection of auditd rules applicable to a very wide scope of machines, published under Apache License 2.0. Refer to that repository for further information.
+
+<br>
 
 ## Requirements
 
@@ -72,10 +84,7 @@ Some __string inputs__ are required when manually triggering the `hardening` wor
 - Run `hardening` role checkbox: this value is embedded in [vars/main.yml](ansible/vars/main.yml) when running the `hardening` workflow. However, a default `true` value is also defined in [defaults/main.yml](ansible/defaults/main.yml).
 - _The workflow branch must be `main` in order for the workflow to run. It cannot be changed._
 
-<img src="https://user-images.githubusercontent.com/73181608/200428209-413255e6-3a46-4e43-b95c-18775c09103f.png" width="25%">
-
-
-> :warning: CrowdSec dashboard will be __globally reachable from any IP address (0.0.0.0)__. Remember to properly limit the exposure surface.
+<img src="https://user-images.githubusercontent.com/73181608/200614172-91ac648c-027a-4892-9dca-e2ea40d77628.png" width="25%">
 
 ## Supported Operating Systems
 
@@ -85,7 +94,7 @@ Some __string inputs__ are required when manually triggering the `hardening` wor
 - EL/CentOS 9
 - Amazon Linux
 
-## Tested Operating Systems (so far)
+### Tested Operating Systems (so far)
 
 | OS version                               | Platform                  | Status             |
 |------------------------------------------|---------------------------|--------------------|
@@ -96,7 +105,7 @@ Some __string inputs__ are required when manually triggering the `hardening` wor
 | CentOS Stream 9 x86_64                   | AWS ami-0269dcaea2eafc196 | :white_check_mark: |
 | Amazon Linux 2 Kernel 5.10               | AWS ami-05c42683296709b61 | :white_check_mark: |
 
-## TODO list
+## TO DO list
 
 - [X] Having problems with Ansible `yum-repository` module while downloading repo files in task [docker_el.yml](ansible/roles/crowdsec/tasks/docker_el.yml) (lines 26-38). It has been replaced with `get_url` module.
 
