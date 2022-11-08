@@ -4,6 +4,8 @@
   roles:
     - role: crowdsec
       tags: ['crowdsec']
+      when: run_crowdsec
 
     - role: hardening
       tags: ['hardening']
+      when: run_hardening

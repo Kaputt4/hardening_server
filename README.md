@@ -68,6 +68,8 @@ Some __string inputs__ are required when manually triggering the `hardening` act
 - Server public IP Address for SSH connection
 - Server name for displaying in CrowdSec Console
 - SSH username
+- Run `crowdsec` role checkbox: this value is embedded in [vars/main.yml](ansible/vars/main.yml) when running the `hardening` action. However, a default `true` value is also defined in [defaults/main.yml](ansible/defaults/main.yml).
+- Run `hardening` role checkbox: this value is embedded in [vars/main.yml](ansible/vars/main.yml) when running the `hardening` action. However, a default `true` value is also defined in [defaults/main.yml](ansible/defaults/main.yml).
 - _The workflow branch must be `main` in order for the workflow to run. It cannot be changed._
 
 <img src="https://user-images.githubusercontent.com/73181608/200428209-413255e6-3a46-4e43-b95c-18775c09103f.png" width="25%">

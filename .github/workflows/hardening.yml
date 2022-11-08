@@ -5,12 +5,25 @@ on:
       ip:
         description: Server IP Address
         required: true
+        type: string
       console_name:
         description: Server name for CrowdSec Console
         required: true
+        type: string
       ssh_user:
         description: SSH username
         required: true
+        type: string
+      run_crowdsec:
+        description: Run crowdsec role
+        default: true
+        required: true
+        type: boolean
+      run_hardening:
+        description: Run hardening role
+        default: true
+        required: true
+        type: boolean
 
 jobs:
   ansible_lint:
@@ -36,7 +49,7 @@ jobs:
           pip install -r requirements.txt
       - name: Convert inventory templates
         env:
-          SERVER_IP: ${{ github.event.inputs.ip }}
+          SERVER_IP: ${{ inputs.ip }}
         run: |
           for file in `find ansible/inventory/ -type f -name '*.tpl'`;
           do
@@ -44,8 +57,13 @@ jobs:
           done
       - name: Convert ansible config template
         env:
-          SSH_USER: ${{ github.event.inputs.ssh_user }}
+          SSH_USER: ${{ inputs.ssh_user }}
         run: envsubst < ansible/ansible.cfg.tpl > ansible/ansible.cfg
+      - name: Insert ansible roles variables
+        env:
+          RUN_CROWDSEC: ${{ inputs.run_crowdsec }}
+          RUN_HARDENING: ${{ inputs.run_hardening }}
+        run: envsubst < ansible/vars/main.yml.tpl > ansible/vars/main.yml
       - name: Prepare SSH key
         run: |
           echo "${{ secrets.ANSIBLE_KEY }}" | base64 -d > ansible/config/ansible.key
@@ -62,7 +80,7 @@ jobs:
       - name: Deploy Ansible
         env:
           ANSIBLE_CONFIG: ansible/ansible.cfg
-          CONSOLE_NAME: ${{ github.event.inputs.console_name }}
+          CONSOLE_NAME: ${{ inputs.console_name }}
           CONSOLE_KEY: ${{ secrets.CONSOLE_KEY }}
           DASHBOARD_PASSWORD: ${{ secrets.DASHBOARD_PASSWORD }}
           ROOT_PASSWORD: ${{ secrets.ROOT_PASSWORD }}
