@@ -24,7 +24,7 @@ Role `crowdsec` performs the following actions:
 
 These are some useful CrowdSec commands. You can see [cscli](https://docs.crowdsec.net/docs/cscli/cscli/) docs for more information.
 
-```sh
+```console
 # Check CrowdSec logs
 tail -f /var/log/crowdsec.log
 
@@ -69,7 +69,7 @@ Role `hardening` performs the following actions:
 
 Audit logs can be seen in `audit.log` file with the following command:
 
-```sh
+```console
 tail -f /var/log/audit/audit.log
 ```
 
