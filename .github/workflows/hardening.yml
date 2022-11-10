@@ -58,12 +58,6 @@ jobs:
         env:
           SSH_USER: ${{ inputs.ssh_user }}
         run: envsubst < ansible/ansible.cfg.tpl > ansible/ansible.cfg
-      - name: Insert ansible roles variables
-        env:
-          RUN_CROWDSEC: ${{ inputs.run_crowdsec }}
-          RUN_HARDENING: ${{ inputs.run_hardening }}
-        run: |
-          envsubst < ansible/vars/main.yml.tpl > ansible/vars/main.yml
       - name: Prepare SSH key
         run: |
           echo "${{ secrets.ANSIBLE_KEY }}" | base64 -d > ansible/config/ansible.key
@@ -87,4 +81,5 @@ jobs:
         run: |
           ansible-playbook ansible/main.yml \
             --diff \
-            --inventory ansible/inventory/inventory.yml
+            --inventory ansible/inventory/inventory.yml \
+            --extra-vars "run_crowdsec=${ inputs.run_crowdsec } run_hardening=${{ inputs.run_hardening }}"
