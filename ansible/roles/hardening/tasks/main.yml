@@ -24,6 +24,18 @@
     - ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
     - ansible_distribution_major_version == "8" or ansible_distribution_major_version == "9"
 
+- name: Cron setup
+  include_tasks: cron.yml
+  args:
+    apply:
+      become: true
+
+- name: Minimize special files permissions
+  include_tasks: root_files.yml
+  args:
+    apply:
+      become: true
+
 - name: Sysctl setup
   include_tasks: sysctl.yml
   args:

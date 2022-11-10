@@ -1,6 +1,16 @@
 ---
 # Configure low-level protective Linux kernel parameters at runtime
 
+- name: Protect sysctl.conf
+  file:
+    path: '/etc/sysctl.conf'
+    owner: 'root'
+    group: 'root'
+    mode: '0440'
+    state: touch
+    modification_time: preserve
+    access_time: preserve
+
 - name: Change kernel parameters
   vars:
     sysctl_config:
