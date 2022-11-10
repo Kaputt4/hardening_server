@@ -1,10 +1,13 @@
 ---
 - hosts: servers
   become: true
+  pre_tasks:
+    - debug:
+        var: run_crowdsec
   roles:
     - role: crowdsec
       tags: ['crowdsec']
-      when: run_crowdsec
+      when: run_crowdsec | bool == true
 
     - role: hardening
       tags: ['hardening']
