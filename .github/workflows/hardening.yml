@@ -62,7 +62,9 @@ jobs:
         env:
           RUN_CROWDSEC: ${{ inputs.run_crowdsec }}
           RUN_HARDENING: ${{ inputs.run_hardening }}
-        run: envsubst < ansible/vars/main.yml.tpl > ansible/vars/main.yml
+        run: |
+          envsubst < ansible/vars/main.yml.tpl > ansible/vars/main.yml
+          cat ansible/vars/main.yml
       - name: Prepare SSH key
         run: |
           echo "${{ secrets.ANSIBLE_KEY }}" | base64 -d > ansible/config/ansible.key
