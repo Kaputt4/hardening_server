@@ -31,3 +31,4 @@
   debug:
     msg: "THE FOLLOWING FILES ARE CRON TASKS: {{ cron_directories.files }}"
   when: cron_directories.files is defined
+  
