@@ -82,4 +82,4 @@ jobs:
           ansible-playbook ansible/main.yml \
             --diff \
             --inventory ansible/inventory/inventory.yml \
-            --extra-vars "run_crowdsec=${ inputs.run_crowdsec } run_hardening=${{ inputs.run_hardening }}"
+            --extra-vars "run_crowdsec=${{ inputs.run_crowdsec }} run_hardening=${{ inputs.run_hardening }}"
