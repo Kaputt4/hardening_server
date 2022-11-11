@@ -48,28 +48,39 @@
   loop:
     - {dest: 'auth', message: 'New session opened', log: '/var/log/auth.log', string: 'session opened'}
 
+- name: Find present log files
+  stat:
+    path: "{{ item.log }}"
+  loop: "{{ notifydata }}"
+  register: notifydata_stat
+
 - name: Create notify scripts
   template:
     src: inotify.sh.j2
     dest: "/tmp/{{ item.dest }}.sh"
     mode: u=rwx,g=rw,o=
-  loop: "{{ notifydata }}"
+  loop: "{{ notifydata_stat.results }}"
+  when: item.stat.exists
 
 - name: Create notify services
   template:
     src: inotify.service.j2
     dest: "/lib/systemd/system/{{ item.dest }}.service"
     mode: u=rwx,g=rw,o=
-  loop: "{{ notifydata }}"
+  loop: "{{ notifydata_stat.results }}"
+  when: item.stat.exists
 
 - name: Enable notify services
   systemd:
     name: "{{ item.dest }}.service"
     enabled: true
-  loop: "{{ notifydata }}"
+  loop: "{{ notifydata_stat.results }}"
+  when: item.stat.exists
 
 - name: Start notify services
   service:
     name: "{{ item.dest }}.service"
     state: started
-  loop: "{{ notifydata }}"
+    daemon_reload: true
+  loop: "{{ notifydata_stat.results }}"
+  when: item.stat.exists

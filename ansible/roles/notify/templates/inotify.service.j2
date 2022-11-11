@@ -1,8 +1,8 @@
 [Unit]
-Description=inotifywait script for {{ item.log }}
+Description=inotifywait script for {{ item.item.log }}
 
 [Service]
-ExecStart=/tmp/{{ item.dest }}.sh
+ExecStart=/tmp/{{ item.item.dest }}.sh
 
 [Install]
 WantedBy=multi-user.target

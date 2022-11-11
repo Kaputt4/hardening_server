@@ -19,9 +19,7 @@
     path: '{{ item.1 }}'
     mode: 'go-w'
     state: file
-  with_subelements:
-    - "{{ minimize_access_directories.results }}"
-    - stdout_lines
+  loop: "{{ minimize_access_directories.results | subelements('stdout_lines') }}"
 
 - name: Find shadow files
   stat:
