@@ -50,6 +50,7 @@ jobs:
         env:
           SERVER_IP: ${{ inputs.ip }}
         run: |
+          echo "::add-mask::$SERVER_IP"
           for file in `find ansible/inventory/ -type f -name '*.tpl'`;
           do
           envsubst < "$file" > ${file%".tpl"};
