@@ -2,17 +2,21 @@
 # Tasks file for notify role
 
 
-- name: Add curl package Debian
+- name: Add curl & inotify package Debian
   apt:
-    name: curl
+    pkg:
+      - curl
+      - inotify-tools
     state: present
   become: true
   notify: Restart crowdsec
   when: ansible_os_family == "Debian"
 
-- name: Add curl package EL/CentOS 7 & Amazon
+- name: Add curl & inotify package EL/CentOS 7 & Amazon
   yum:
-    name: curl
+    name:
+      - curl
+      - inotify-tools
     state: present
   become: true
   notify: Restart crowdsec
@@ -21,9 +25,11 @@
     ansible_distribution_major_version == "7") or
     ansible_distribution == 'Amazon'
 
-- name: Add curl package EL/CentOS 8 & EL/CentOS 9
+- name: Add curl & inotify package EL/CentOS 8 & EL/CentOS 9
   dnf:
-    name: curl
+    name:
+      - curl
+      - inotify-tools
     state: present
   become: true
   notify: Restart crowdsec
