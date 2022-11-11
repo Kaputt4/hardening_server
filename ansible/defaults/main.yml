@@ -1,5 +1,0 @@
----
-# Defaults file for ansible playbook
-
-run_crowdsec: true
-run_hardening: true

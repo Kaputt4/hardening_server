@@ -36,9 +36,9 @@
 - name: Change shadow ownership to root and mode to 0600 | os-02
   file:
     dest: "{{ item.item }}"
-    owner: '{{ os_shadow_perms.owner }}'
-    group: '{{ os_shadow_perms.group }}'
-    mode: '{{ os_shadow_perms.mode }}'
+    owner: root
+    group: shadow
+    mode: u=rw,g=r,o=
   when: item.stat.exists
   loop: "{{ minimize_access_shadow_files.results }}"
 
@@ -55,9 +55,9 @@
 - name: Change passwd ownership to root and mode to 0644 | os-03
   file:
     dest: "{{ item.item }}"
-    owner: '{{ os_passwd_perms.owner }}'
-    group: '{{ os_passwd_perms.group }}'
-    mode: '{{ os_passwd_perms.mode }}'
+    owner: root
+    group: root
+    mode: u=rw,g=r,o=r
   when: item.stat.exists
   loop: "{{ minimize_access_passwd_files.results }}"
 

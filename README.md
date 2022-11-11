@@ -61,7 +61,7 @@ This role develops some common hardening tasks that are recommended to carry out
 Role `hardening` performs the following actions:
 
 - Upgrade the system using `apt`, `yum` or `dnf`.
-- Remove all permissions for _group_ and _others_ of `cron` files, and alert all of them for manual check.
+- Remove all permissions for _group_ and _others_ of `cron` files.
 - Minimize permissions of special files such as `/etc/passwd`, `/etc/passwd` and `/bin/su`.
 - Configure kernel parameters using `sysctl`.
 - Install and setup auditd service.
@@ -75,6 +75,21 @@ Role `hardening` performs the following actions:
   - Alert of users without passwords.
   - Alert of users with UID 0 that are not `root` user.
   - Disable enabled users that are not in [`root`, `ubuntu`, `centos`, `ec2-user`, `halt`, `shutdown`, <<`current_user`>>], being <<`current_user`>> the user that is used for the SSH connection.
+
+<br>
+
+It's recommended that `cron` jobs, stored in `/etc` directory, are manually checked to ensure that no strange job is defined, because it could allow a malicious user to gain elevated privileges. The following files should be checked:
+
+```
+/
+└── etc
+    ├── cron.hourly
+    ├── cron.daily
+    ├── cron.weekly
+    ├── cron.monthly
+    ├── cron.d
+    └── crontab
+```
 
 <br>
 

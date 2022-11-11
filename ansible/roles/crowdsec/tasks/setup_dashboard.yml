@@ -32,6 +32,7 @@
 - name: Set CrowdSec dashboard variables
   set_fact:
     crowdsec_dashboard_password: "{{ lookup('env', 'DASHBOARD_PASSWORD') }}"
+  when: "'crowdsec-metabase' not in dashboard_setup.stdout"
 
 - name: Setup CrowdSec dashboard
   command: cscli dashboard setup --listen 0.0.0.0 --password {{ crowdsec_dashboard_password }} --yes

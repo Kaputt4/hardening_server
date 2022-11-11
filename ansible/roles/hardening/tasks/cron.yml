@@ -26,8 +26,3 @@
     group: root
     mode: og-rwx
   with_items: "{{ cron_directories.files }}"
-
-- name: Print cron files for manually checking of unrecognized files
-  debug:
-    msg: "THE FOLLOWING FILES ARE CRON TASKS: {{ cron_directories.files }}"
-  when: cron_directories.files is defined
