@@ -8,29 +8,53 @@
       - gpg
     state: present
 
-- name: Add Docker GPG apt Key Ubuntu
-  apt_key:
-    url: https://download.docker.com/linux/ubuntu/gpg
-    state: present
-  when: ansible_distribution == 'Ubuntu'
+- name: Gather the package facts
+  package_facts:
+    manager: "auto"
 
-- name: Add Docker GPG apt Key Debian
-  apt_key:
-    url: https://download.docker.com/linux/debian/gpg
-    state: present
-  when: ansible_distribution == 'Debian'
+- name: Download Docker repo install script
+  get_url:
+    url: https://get.docker.com
+    dest: /root/get-docker.sh
+    mode: u=rwx,g=rx,o=rx
+  become: true
+  when: "'docker' not in ansible_facts.packages"
 
-- name: Add Docker Repository Ubuntu
-  apt_repository:
-    repo: deb https://download.docker.com/linux/ubuntu focal stable
-    state: present
-  when: ansible_distribution == 'Ubuntu'
+- name: Execute Docker install script
+  command: /root/get-docker.sh
+  become: true
+  when: "'docker' not in ansible_facts.packages"
 
-- name: Add Docker Repository Debian
-  apt_repository:
-    repo: deb https://download.docker.com/linux/debian focal stable
-    state: present
-  when: ansible_distribution == 'Debian'
+- name: Remove the CrowdSec repo install script
+  file:
+    path: /root/get-docker.sh
+    state: absent
+
+# Other official installation steps
+# - name: Add Docker GPG apt Key Ubuntu
+#   apt_key:
+#     url: https://download.docker.com/linux/ubuntu/gpg
+#     state: present
+#   when: ansible_distribution == 'Ubuntu'
+
+# - name: Add Docker GPG apt Key Debian
+#   apt_key:
+#     url: https://download.docker.com/linux/debian/gpg
+#     state: present
+#   when: ansible_distribution == 'Debian'
+
+# - name: Add Docker Repository Ubuntu
+#   apt_repository:
+#     repo: deb https://download.docker.com/linux/ubuntu focal stable
+#     state: present
+#   when: ansible_distribution == 'Ubuntu'
+
+# - name: Add Docker Repository Debian
+#   apt_repository:
+#     repo: deb https://download.docker.com/linux/debian focal stable
+#     state: present
+#   when: ansible_distribution == 'Debian'
+# End other official installation steps
 
 - name: Install docker-ce package
   apt:
