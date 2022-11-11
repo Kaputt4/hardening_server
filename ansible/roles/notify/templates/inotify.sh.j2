@@ -21,7 +21,7 @@ while inotifywait -e modify {{ item.log }}; do
     if [ $? -eq 0 ]; then
         echo "$diff"
         # @notify-send "$(printf '%s' "$diff" | grep -Po "session opened for user \K.*") has been installed"
-        IP=$(curl -s ipconfig.me)
+        IP=$(curl -s ifconfig.me)
         echo "$MESSAGE for server IP $IP, hostname $HOSTNAME"
         curl -X POST --silent --output /dev/null $URL -d chat_id=$ID_CHAT -d text="$HOSTNAME%0A$IP%0A$MESSAGE"
     fi
