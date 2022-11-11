@@ -1,7 +1,7 @@
 ---
 # CrowdSec dashboard installation tasks
 
-- name: Install docker Ubuntu
+- name: Install docker Debian
   include_tasks: docker_ubuntu.yml
   when: ansible_os_family == "Debian"
 

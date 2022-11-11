@@ -7,7 +7,7 @@
 #   - crowdsec_enroll_key is not defined
 #   - crowdsec_enroll_name is not defined
 
-- name: Installation for Ubuntu
+- name: Installation for Debian
   include_tasks: install_ubuntu.yml
   when: ansible_os_family == "Debian"
 

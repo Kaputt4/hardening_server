@@ -1,7 +1,7 @@
 ---
 # Install and enable firewalld service
 
-- name: Install the latest version of firewalld Ubuntu
+- name: Install the latest version of firewalld Debian
   apt:
     name: firewalld
     state: present

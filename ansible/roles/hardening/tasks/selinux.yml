@@ -19,7 +19,7 @@
     state: present
   when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
 
-- name: Install selinux Ubuntu
+- name: Install selinux Debian
   apt:
     pkg:
       - selinux-utils
@@ -27,8 +27,16 @@
     state: present
   when: ansible_os_family == "Debian"
 
-- name: Enable SELinux
+- name: Enable SELinux Debian
+  selinux:
+    policy: default
+    state: enforcing
+  notify: Reboot
+  when: ansible_os_family == "Debian"
+
+- name: Enable SELinux EL/CentOS/Amazon
   selinux:
     policy: targeted
     state: enforcing
   notify: Reboot
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux' or ansible_distribution == 'Amazon'

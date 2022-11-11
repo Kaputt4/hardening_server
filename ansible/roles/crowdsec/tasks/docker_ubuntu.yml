@@ -31,7 +31,7 @@
     state: absent
 
 # Other official installation steps
-# - name: Add Docker GPG apt Key Ubuntu
+# - name: Add Docker GPG apt Key Debian
 #   apt_key:
 #     url: https://download.docker.com/linux/ubuntu/gpg
 #     state: present
@@ -43,7 +43,7 @@
 #     state: present
 #   when: ansible_distribution == 'Debian'
 
-# - name: Add Docker Repository Ubuntu
+# - name: Add Docker Repository Debian
 #   apt_repository:
 #     repo: deb https://download.docker.com/linux/ubuntu focal stable
 #     state: present

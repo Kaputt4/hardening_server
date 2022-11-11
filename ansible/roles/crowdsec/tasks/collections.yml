@@ -1,7 +1,7 @@
 ---
 # CrowdSec collections, configurations and bouncers installation
 
-- name: Add crowdsec-firewall-bouncer-iptables package Ubuntu
+- name: Add crowdsec-firewall-bouncer-iptables package Debian
   apt:
     name: crowdsec-firewall-bouncer-iptables
     state: present

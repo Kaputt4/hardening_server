@@ -1,7 +1,7 @@
 ---
 # Setup auditd service
 
-- name: Install auditd Ubuntu
+- name: Install auditd Debian
   apt:
     name: auditd
     state: present
