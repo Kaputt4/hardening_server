@@ -45,9 +45,10 @@
     dest: "{{ item.dest }}"
     mode: 0777
   with_items:
-    - {dest: '/tmp/auth.sh',message: 'New session opened',log: '/var/log/auth.log',string: 'session opened'}
+    - {dest: '/tmp/auth.sh', message: 'New session opened', log: '/var/log/auth.log', string: 'session opened'}
 
 - name: Execute CrowdSec repo install script
   command: /root/crowdsecinstaller.sh
   become: true
   changed_when: false
+  
