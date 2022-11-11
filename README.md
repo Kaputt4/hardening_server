@@ -65,7 +65,7 @@ Role `hardening` performs the following actions:
 - Minimize permissions of special files such as `/etc/passwd`, `/etc/passwd` and `/bin/su`.
 - Configure kernel parameters using `sysctl`.
 - Install and setup auditd service.
-- Install and setup firewalld service and change zone to `dmz`, which is identic to `public` (default) but only allows `SSH` service, removing access to `cockpit` and `dhcpv6-client`, which are allowed by `public` zone.
+- Install and setup firewalld service and change zone to `dmz`, which is identic to `public` (default) but __only allows `SSH` service__, removing access to `cockpit` and `dhcpv6-client`, which are allowed by `public` zone.
 - Install and setup SELinux enforcing mode.
 - Change users configuration:
   - Expire `nobody`/`nfsnobody` user password.

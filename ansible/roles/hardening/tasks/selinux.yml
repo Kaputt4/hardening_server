@@ -7,9 +7,9 @@
     state: present
   when: ansible_distribution == 'Amazon'
 
-- name: Install python3-libselinux /Debian
+- name: Install python3-selinux Debian
   apt:
-    name: python3-libselinux
+    name: python3-selinux
     state: present
   when: ansible_os_family == "Debian"
 
