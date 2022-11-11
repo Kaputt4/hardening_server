@@ -120,7 +120,7 @@ Some __GitHub repository secrets__ must be present in order for the GitHub `hard
 
 The secrets tab should look like follows:
 
-<img src="https://user-images.githubusercontent.com/73181608/200427461-7fcd30dd-d6b4-4647-8aa7-eced20221166.png" width="70%">
+<img src="https://user-images.githubusercontent.com/73181608/201358470-784a926b-dde4-4805-8d1a-aa03388233a2.png" width="70%">
 
 ### GitHub `hardening` workflow inputs
 
