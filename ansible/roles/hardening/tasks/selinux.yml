@@ -7,11 +7,17 @@
     state: present
   when: ansible_distribution == 'Amazon'
 
-- name: Install python3-libselinux EL/CentOS/Debian
+- name: Install python3-libselinux /Debian
+  apt:
+    name: python3-libselinux
+    state: present
+  when: ansible_os_family == "Debian"
+
+- name: Install python3-libselinux EL/CentOS
   yum:
     name: python3-libselinux
     state: present
-  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux' or ansible_os_family == "Debian"
+  when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
 
 - name: Install selinux Ubuntu
   apt:
