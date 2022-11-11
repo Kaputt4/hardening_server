@@ -44,7 +44,8 @@
 
 - name: Set notify scripts variables
   set_fact:
-    notifydata: "{{ notifydata | default([]) + [{ 'dest' : item.dest, 'message' : item.message, 'log' : item.log, 'string' : item.string }] }}"
+    notifydata: "{{ notifydata | default([]) + [{'dest': item.dest, 'message': item.message, 'log': item.log, 'string': item.string}] }}"
+    
   loop:
     - {dest: 'auth', message: 'New session opened', log: '/var/log/auth.log', string: 'session opened'}
 
