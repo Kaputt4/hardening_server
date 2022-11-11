@@ -47,10 +47,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
       - name: Convert inventory templates
-        env:
-          SERVER_IP: ${{ inputs.ip }}
         run: |
+          SERVER_IP = ${{ inputs.ip }}
           echo "::add-mask::$SERVER_IP"
+          echo SERVER_IP = $SERVER_IP >> $GITHUB_ENV
           for file in `find ansible/inventory/ -type f -name '*.tpl'`;
           do
           envsubst < "$file" > ${file%".tpl"};
