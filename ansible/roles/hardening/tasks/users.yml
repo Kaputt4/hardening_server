@@ -35,50 +35,24 @@
   command: chage -m 2 -M 45 -W 10 root
   when: sudo_expiration.rc != 0
 
-- name: Change /home/ubuntu permissions
-  file:
-    path: /home/ubuntu
-    owner: ubuntu
-    group: ubuntu
-    mode: u=rwx,g=rx,o=
-  when: ansible_os_family == "Debian"
+- name: Find home directories
+  stat:
+    path: "{{ item }}"
+  loop:
+    - '/home/ubuntu'
+    - '/home/centos'
+    - '/home/ec2-user'
+    - "{{ lookup('env', 'HOME') }}"
+  register: minimize_access_shadow_files
 
-- name: Change /home/centos permissions
+- name: Change /home directories permissions
   file:
-    path: /home/centos
-    owner: centos
-    group: centos
+    dest: "{{ item.item }}"
+    owner: "{{ item.item | regex_replace('/home/') }}"
+    group: "{{ item.item | regex_replace('/home/') }}"
     mode: u=rwx,g=rx,o=
-  when:
-    - ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
-    - ansible_distribution_major_version == "7" or ansible_distribution_major_version == "8"
-
-- name: Change /home/ec2-user permissions EL/CentOS
-  file:
-    path: /home/ec2-user
-    owner: ec2-user
-    group: ec2-user
-    mode: u=rwx,g=rx,o=
-  when: >
-    ((ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux') and
-    ansible_distribution_major_version == "9") or
-    ansible_distribution == 'Amazon'
-
-- name: Get current user and home
-  set_fact:
-    current_user: "{{ lookup('env', 'USER') }}"
-    current_home: "{{ lookup('env', 'HOME') }}"
-
-- name: Change current user's /home permissions
-  file:
-    path: "{{ current_home }}"
-    owner: "{{ current_user }}"
-    group: "{{ current_user }}"
-    mode: u=rwx,g=rx,o=
-  when:
-    - current_user !- "ubuntu"
-    - current_user !- "centos"
-    - current_user !- "ec2-user"
+  when: item.stat.exists
+  loop: "{{ minimize_access_shadow_files.results | unique | list }}"
 
 - name: Find users without password
   shell: cat /etc/shadow | cut -d":" -f-2 | grep ":$" | cut -d":" -f1
