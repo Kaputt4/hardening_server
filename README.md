@@ -65,7 +65,20 @@ Role `hardening` performs the following actions:
 - Minimize permissions of special files such as `/etc/passwd`, `/etc/passwd` and `/bin/su`.
 - Configure kernel parameters using `sysctl`.
 - Install and setup auditd service.
-- Install and setup firewalld service and change zone to `dmz`, which is identic to `public` (default) but __only allows `SSH` service__, removing access to `cockpit` and `dhcpv6-client`, which are allowed by `public` zone.
+  - Audit logs can be seen in `audit.log` file with the following command:
+
+    ```console
+    tail -f /var/log/audit/audit.log
+    ```
+
+- Install and setup firewalld service, enable log of denied packets and change zone to `dmz`, which is identic to `public` (default) but __only allows `SSH` service__, removing access to `cockpit` and `dhcpv6-client`, which are allowed by `public` zone.
+  - Other services can be added with the following commands:
+
+    ```console
+    firewall-cmd --zone=dmz --permanent --remove-service=http
+    firewall-cmd --reload
+    ```
+
 - Install and setup SELinux enforcing mode.
 - Change users configuration:
   - Expire `nobody`/`nfsnobody` user password.
@@ -89,14 +102,6 @@ It's recommended that `cron` jobs, stored in `/etc` directory, are manually chec
     ├── cron.monthly
     ├── cron.d
     └── crontab
-```
-
-<br>
-
-Audit logs can be seen in `audit.log` file with the following command:
-
-```console
-tail -f /var/log/audit/audit.log
 ```
 
 <br>

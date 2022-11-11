@@ -29,12 +29,35 @@
     name: firewalld
     state: started
 
-- name: Get active firewalld zone
-  shell: "firewall-cmd --list-all | grep active"
+- name: Get firewalld default zone
+  command: "firewall-cmd --get-default-zone"
   changed_when: false
   failed_when: false
-  register: firewalld_zone
+  register: firewalld_def_zone
+
+- name: Set firewalld default zone
+  command: "firewall-cmd --set-default-zone=dmz"
+  notify: Restart auditd
+  when: "'dmz' not in firewalld_def_zone.stdout"
+
+- name: Get active firewalld zone
+  shell: "firewall-cmd --get-active-zones"
+  changed_when: false
+  failed_when: false
+  register: firewalld_act_zone
 
 - name: Change firewalld zone
   command: "firewall-cmd --zone=dmz --permanent --change-interface={{ ansible_default_ipv4.interface }}"
-  when: "'dmz' not in firewalld_zone.stdout"
+  notify: Restart auditd
+  when: "'(active)' not in firewalld_act_zone.stdout"
+
+- name: Get firewalld log config
+  command: "firewall-cmd --get-log-denied"
+  changed_when: false
+  failed_when: false
+  register: firewalld_log
+
+- name: Set firewalld log all
+  command: "firewall-cmd --set-log-denied=all"
+  notify: Restart auditd
+  when: "'all' not in firewalld_log.stdout"
