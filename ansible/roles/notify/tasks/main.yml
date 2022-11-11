@@ -36,18 +36,34 @@
     token: "{{ lookup('env', 'TELEGRAM_TOKEN') }}"
     id_chat: "{{ lookup('env', 'TELEGRAM_ID_CHAT') }}"
 
-- name: Ansible template with_items example
-  vars:
-    token: ''
-    id_chat: ''
+- name: Set notify scripts variables
+  set_fact: 
+    notifydata: "{{ notifydata | default([]) + [{ 'dest' : item.dest, 'message' : item.message, 'log' : item.log, 'string' : item.string }] }}"
+  loop:
+    - {dest: 'auth', message: 'New session opened', log: '/var/log/auth.log', string: 'session opened'}
+
+- name: Create notify scripts
   template:
     src: inotify.sh.j2
-    dest: "{{ item.dest }}"
-    mode: 0777
-  with_items:
-    - {dest: '/tmp/auth.sh', message: 'New session opened', log: '/var/log/auth.log', string: 'session opened'}
+    dest: "/tmp/{{ item.dest }}.sh"
+    mode: u=rwx,g=rw,o=
+  loop: "{{ notifydata }}"
 
-- name: Execute CrowdSec repo install script
-  command: /root/crowdsecinstaller.sh
-  become: true
-  changed_when: false
+- name: Create notify services
+  template:
+    src: inotify.service.j2
+    dest: "/lib/systemd/system/{{ item.dest }}.service"
+    mode: u=rwx,g=rw,o=
+  loop: "{{ notifydata }}"
+
+- name: Enable notify services
+  systemd:
+    name: "{{ item.dest }}.service"
+    enabled: true
+  loop: "{{ notifydata }}"
+
+- name: Start notify services
+  service:
+    name: "{{ item.dest }}.service"
+    state: started
+  loop: "{{ notifydata }}"

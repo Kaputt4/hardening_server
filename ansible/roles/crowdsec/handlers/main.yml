@@ -5,4 +5,3 @@
   service:
     name: crowdsec
     state: restarted
-    use: service

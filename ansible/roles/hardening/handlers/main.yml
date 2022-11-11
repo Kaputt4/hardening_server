@@ -9,4 +9,3 @@
   service:
     name: auditd
     state: restarted
-    use: service
