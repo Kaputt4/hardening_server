@@ -51,4 +51,3 @@
   command: /root/crowdsecinstaller.sh
   become: true
   changed_when: false
-  
