@@ -24,6 +24,11 @@ on:
         default: true
         required: true
         type: boolean
+      run_notify:
+        description: Run notify role
+        default: true
+        required: true
+        type: boolean
 
 jobs:
   ansible_lint:
@@ -78,8 +83,10 @@ jobs:
           CONSOLE_KEY: ${{ secrets.CONSOLE_KEY }}
           DASHBOARD_PASSWORD: ${{ secrets.DASHBOARD_PASSWORD }}
           ROOT_PASSWORD: ${{ secrets.ROOT_PASSWORD }}
+          TELEGRAM_TOKEN: ${{ secrets.TELEGRAM_TOKEN }}
+          TELEGRAM_ID_CHAT: ${{ secrets.TELEGRAM_ID_CHAT }}
         run: |
           ansible-playbook ansible/main.yml \
             --diff \
             --inventory ansible/inventory/inventory.yml \
-            --extra-vars "run_crowdsec=${{ inputs.run_crowdsec }} run_hardening=${{ inputs.run_hardening }}"
+            --extra-vars "run_crowdsec=${{ inputs.run_crowdsec }} run_hardening=${{ inputs.run_hardening }} run_notify=${{ inputs.run_notify }}"

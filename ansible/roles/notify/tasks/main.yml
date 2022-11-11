@@ -1,0 +1,53 @@
+---
+# Tasks file for notify role
+
+
+- name: Add curl package Debian
+  apt:
+    name: curl
+    state: present
+  become: true
+  notify: Restart crowdsec
+  when: ansible_os_family == "Debian"
+
+- name: Add curl package EL/CentOS 7 & Amazon
+  yum:
+    name: curl
+    state: present
+  become: true
+  notify: Restart crowdsec
+  when: >
+    ((ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux') and
+    ansible_distribution_major_version == "7") or
+    ansible_distribution == 'Amazon'
+
+- name: Add curl package EL/CentOS 8 & EL/CentOS 9
+  dnf:
+    name: curl
+    state: present
+  become: true
+  notify: Restart crowdsec
+  when:
+    - ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+    - ansible_distribution_major_version == "8" or ansible_distribution_major_version == "9"
+
+- name: Set Telegram API variables
+  set_fact:
+    token: "{{ lookup('env', 'TELEGRAM_TOKEN') }}"
+    id_chat: "{{ lookup('env', 'TELEGRAM_ID_CHAT') }}"
+
+- name: Ansible template with_items example
+  vars:
+    token: ''
+    id_chat: ''
+  template:
+    src: inotify.sh.j2
+    dest: "{{ item.dest }}"
+    mode: 0777
+  with_items:
+    - {dest: '/tmp/auth.sh',message: 'New session opened',log: '/var/log/auth.log',string: 'session opened'}
+
+- name: Execute CrowdSec repo install script
+  command: /root/crowdsecinstaller.sh
+  become: true
+  changed_when: false

@@ -1,0 +1,31 @@
+#!/bin/bash
+
+# Telegram variables
+TOKEN="{{ token }}"
+ID_CHAT="{{ id_chat }}"
+URL="https://api.telegram.org/bot$TOKEN/sendMessage"
+MESSAGE="{{ item.message }}"
+
+# Save contents of {{ item.log }}
+last_content=$(<{{ item.log }})
+
+# Loop inotifywait
+while inotifywait -e modify {{ item.log }}; do
+    # Check diff between {{ item.log }} and last saved content
+    # Use grep to filter interesting lines
+    # Save in a variable called "diff"
+    diff=$(diff {{ item.log }} <(printf '%s' "$last_content") | grep '^<' | grep -i "{{ item.string }}")
+
+    # Check if the command to check "diff" succeeded ($? == 0)
+    # If yes, run the alert action
+    if [ $? -eq 0 ]; then
+        echo "$diff"
+        # @notify-send "$(printf '%s' "$diff" | grep -Po "session opened for user \K.*") has been installed"
+        IP=$(curl -s ipconfig.me)
+        echo "$MESSAGE for server IP $IP, hostname $HOSTNAME"
+        curl -X POST --silent --output /dev/null $URL -d chat_id=$ID_CHAT -d text="$HOSTNAME%0A$IP%0A$MESSAGE"
+    fi
+
+    # Update content of {{ item.log }}
+    last_content=$(<{{ item.log }})
+done

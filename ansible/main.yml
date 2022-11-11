@@ -4,6 +4,7 @@
   vars:
     run_crowdsec: true
     run_hardening: true
+    run_notify: true
   pre_tasks:
     - debug:
         var: run_crowdsec
@@ -15,3 +16,7 @@
     - role: hardening
       tags: ['hardening']
       when: run_hardening | bool == true
+
+    - role: notify
+      tags: ['notify']
+      when: run_notify | bool == true

@@ -1,0 +1,1 @@
+# Ansible `notify` role

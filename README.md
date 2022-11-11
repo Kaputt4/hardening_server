@@ -115,6 +115,8 @@ Some __GitHub repository secrets__ must be present in order for the GitHub `hard
 - CrowdSec console enrollment key must be defined with name `CONSOLE_KEY`.
 - CrowdSec dashboard login password must be defined with name `DASHBOARD_PASSWORD`.
 - System `root` user password must be defined with name `ROOT_PASSWORD`.
+- Telegram bot API token must be defined with name `TELEGRAM_TOKEN`.
+- Telegram ID from chart where inotifywait alerts will be delivered must be defined with name `TELEGRAM_ID_CHAT`.
 
 The secrets tab should look like follows:
 
@@ -145,8 +147,10 @@ Some __string inputs__ are required when manually triggering the `hardening` wor
 
 | OS version                               | Platform                  | Status             |
 |------------------------------------------|---------------------------|--------------------|
+| Ubuntu Server 20.04 LTS Focal Fossa      | VPS Server                | :white_check_mark: |
 | Ubuntu Desktop 22.04 LTS Jammy Jellyfish | Desktop                   | :white_check_mark: |
 | Ubuntu Server 22.04 LTS Jammy Jellyfish  | AWS ami-0efda064d1b5e46a5 | :white_check_mark: |
+| Debian GNU/Linux 11 Bullseye             | VPS Server                | :white_check_mark: |
 | CentOS 7 x86_64                          | AWS ami-08998a9a61da37c77 | :white_check_mark: |
 | CentOS Stream 8 x86_64                   | AWS ami-05eaebdafff627949 | :white_check_mark: |
 | CentOS Stream 9 x86_64                   | AWS ami-0269dcaea2eafc196 | :white_check_mark: |
