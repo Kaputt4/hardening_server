@@ -83,7 +83,7 @@
     must_enabled_users:
       - root
       - ubuntu
-      - "{{ current_user }}"
+      - "{{ lookup('env', 'USER') }}"
       - centos
       - ec2-user
       - halt
@@ -93,7 +93,7 @@
      | difference(getent_passwd \
      | dict2items \
      | json_query('[? contains(value,`/sbin/nologin`)].key')) \
-     | difference(must_enabled_users) }}"
+     | difference(must_enabled_users | unique | list) }}"
 
 - name: Disable enabled system users
   user:
