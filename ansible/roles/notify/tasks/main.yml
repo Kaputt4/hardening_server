@@ -46,9 +46,12 @@
   set_fact:
     notifydata: "{{ notifydata | default([]) + [{'dest': item.dest, 'message': item.message, 'log': item.log, 'string': item.string}] }}"
   loop:
-    - {dest: 'auth_notify', message: 'New session opened', log: '/var/log/auth.log', string: 'session opened'}
-    - {dest: 'apache2_notify', message: 'New Apache GET/POST request', log: "{{ '/var/log/apache2/access.log' if ansible_os_family == 'Debian' else '/var/log/httpd/access_log' }}", string: 'GET\|POST'}
-    - {dest: 'firewall_notify', message: 'New rejected request', log: '/var/log/firewalld', string: 'REJECT'}
+    - {dest: 'auth_notify', message: 'New session opened', \
+        log: '/var/log/auth.log', string: 'session opened'}
+    - {dest: 'apache2_notify', message: 'New Apache GET/POST request', \
+        log: "{{ '/var/log/apache2/access.log' if ansible_os_family == 'Debian' else '/var/log/httpd/access_log' }}", string: 'GET\|POST'}
+    - {dest: 'firewall_notify', message: 'New rejected request', \
+        log: '/var/log/firewalld', string: 'REJECT'}
 
 - name: Find present log files
   stat:

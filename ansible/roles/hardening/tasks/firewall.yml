@@ -41,7 +41,7 @@
   when: "'dmz' not in firewalld_def_zone.stdout"
 
 - name: Get active firewalld zone
-  shell: "firewall-cmd --get-active-zones"
+  command: "firewall-cmd --get-active-zones"
   changed_when: false
   failed_when: false
   register: firewalld_act_zone
