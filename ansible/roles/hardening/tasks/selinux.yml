@@ -19,7 +19,7 @@
     state: present
   when: ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
 
-- name: Install selinux Debian
+- name: Install SELinux Debian
   apt:
     pkg:
       - selinux-utils

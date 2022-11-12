@@ -16,6 +16,7 @@
   yum:
     name:
       - curl
+      - epel-release
       - inotify-tools
     state: present
   become: true
@@ -29,6 +30,7 @@
   dnf:
     name:
       - curl
+      - epel-release
       - inotify-tools
     state: present
   become: true
