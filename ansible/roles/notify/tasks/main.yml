@@ -9,32 +9,48 @@
       - inotify-tools
     state: present
   become: true
-  notify: Restart crowdsec
   when: ansible_os_family == "Debian"
 
-- name: Add curl & inotify package EL/CentOS 7 & Amazon
+- name: Add curl & epel-release packages EL/CentOS 7 & Amazon
   yum:
     name:
       - curl
       - epel-release
-      - inotify-tools
     state: present
   become: true
-  notify: Restart crowdsec
   when: >
     ((ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux') and
     ansible_distribution_major_version == "7") or
     ansible_distribution == 'Amazon'
 
-- name: Add curl & inotify package EL/CentOS 8 & EL/CentOS 9
+- name: Add curl & epel-release packages EL/CentOS 8 & EL/CentOS 9
   dnf:
     name:
       - curl
       - epel-release
+    state: present
+  become: true
+  when:
+    - ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
+    - ansible_distribution_major_version == "8" or ansible_distribution_major_version == "9"
+
+- name: Add inotify package EL/CentOS 7 & Amazon
+  yum:
+    name:
       - inotify-tools
     state: present
   become: true
-  notify: Restart crowdsec
+  when: >
+    ((ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux') and
+    ansible_distribution_major_version == "7") or
+    ansible_distribution == 'Amazon'
+
+- name: Add inotify package EL/CentOS 8 & EL/CentOS 9
+  dnf:
+    name:
+      - inotify-tools
+    state: present
+  become: true
   when:
     - ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
     - ansible_distribution_major_version == "8" or ansible_distribution_major_version == "9"
