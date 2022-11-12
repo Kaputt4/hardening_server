@@ -34,6 +34,7 @@
     - ansible_distribution == 'CentOS' or ansible_distribution == 'Red Hat Enterprise Linux'
     - ansible_distribution_major_version == "8" or ansible_distribution_major_version == "9"
 
+# inotify-tools installation must be separated from the previous installs so that epel-release is installed and used
 - name: Add inotify package EL/CentOS 7 & Amazon
   yum:
     name:
@@ -64,7 +65,8 @@
   set_fact:
     notifydata: "{{ notifydata | default([]) + [{'dest': item.dest, 'message': item.message, 'log': item.log, 'string': item.string}] }}"
   loop:
-    - {dest: 'auth_notify', message: 'New session opened', log: '/var/log/auth.log', string: 'session opened'}
+    - {dest: 'auth_notify', message: 'New session opened', log: "{{ '/var/log/auth.log' \
+        if ansible_os_family == 'Debian' else '/var/log/secure' }}", string: 'session opened'}
     - {dest: 'apache2_notify', message: 'New Apache GET/POST request', log: "{{ '/var/log/apache2/access.log' \
         if ansible_os_family == 'Debian' else '/var/log/httpd/access_log' }}", string: 'GET\|POST'}
     - {dest: 'firewall_notify', message: 'New rejected request', log: '/var/log/firewalld', string: 'REJECT'}
