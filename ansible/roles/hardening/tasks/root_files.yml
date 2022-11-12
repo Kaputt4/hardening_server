@@ -35,8 +35,8 @@
   file:
     dest: "{{ item.item }}"
     owner: root
-    group: shadow
-    mode: u=rw,g=r,o=
+    group: "{{ 'shadow' if ansible_os_family == 'Debian' else 'root' }}"
+    mode: "{{ 'u=rw,g=r,o=' if ansible_os_family == 'Debian' else 'u=,g=,o=' }}"
   when: item.stat.exists
   loop: "{{ minimize_access_shadow_files.results }}"
 
