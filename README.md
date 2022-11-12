@@ -6,7 +6,7 @@ Repository with Ansible playbook to harden a server.
 
 ## Roles
 
-Currently, the repository contains two Ansible roles: `crowdsec` and `hardening`.
+Currently, the repository contains three Ansible roles: `crowdsec`, `hardening` and `notify`.
 
 Changes are produced with a GitHub workflow named `hardening` that has to be manually triggered from [`actions`](https://github.com/Kaputt4/hardening_server/actions/workflows/hardening.yml) tab.
 
@@ -110,6 +110,20 @@ It's recommended that `cron` jobs, stored in `/etc` directory, are manually chec
 
 <br>
 
+### `notify` role
+
+This role creates some services that monitor important logs and alert using a Telegram bot.
+
+Role `notify` performs the following actions:
+
+- Install `curl` & `inotify-tools` packages.
+- Deploy the scripts that will run in the server, monitor de log files and send requests to the Telegram API.
+  - This scripts will be deployed in `/tmp/***_notify.sh`.
+- Create one service per script, that will ensure that the scripts are run on each boot.
+  - This services will be deployed in `/lib/systemd/system/***_notify.service`.
+
+<br>
+
 ## Requirements
 
 ### GitHub repository secrets
@@ -156,6 +170,7 @@ Some __string inputs__ are required when manually triggering the `hardening` wor
 | Ubuntu Desktop 22.04 LTS Jammy Jellyfish | Desktop                   | :white_check_mark: |
 | Ubuntu Server 22.04 LTS Jammy Jellyfish  | AWS ami-0efda064d1b5e46a5 | :white_check_mark: |
 | Debian GNU/Linux 11 Bullseye             | VPS Server                | :white_check_mark: |
+| CentOS 7 x86_64                          | VPS Server                | :white_check_mark: |
 | CentOS 7 x86_64                          | AWS ami-08998a9a61da37c77 | :white_check_mark: |
 | CentOS Stream 8 x86_64                   | AWS ami-05eaebdafff627949 | :white_check_mark: |
 | CentOS Stream 9 x86_64                   | AWS ami-0269dcaea2eafc196 | :white_check_mark: |
