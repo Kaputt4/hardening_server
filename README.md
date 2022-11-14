@@ -4,6 +4,22 @@ Repository with Ansible playbook to harden a server.
 
 [![Hardening](https://github.com/Kaputt4/hardening_server/actions/workflows/hardening.yml/badge.svg)](https://github.com/Kaputt4/hardening_server/actions/workflows/hardening.yml) [![Ansible Lint](https://github.com/Kaputt4/hardening_server/actions/workflows/lint.yml/badge.svg)](https://github.com/Kaputt4/hardening_server/actions/workflows/lint.yml) [![dependabot badge](https://badgen.net/github/dependabot/Kaputt4/hardening_server?icon=dependabot)](https://github.com/Kaputt4/hardening_server/network/updates)
 
+## TOC
+
+- [Hardening a Server](#hardening-a-server)
+  * [Roles](#roles)
+    + [`crowdsec` role](#crowdsec-role)
+    + [`hardening` role](#hardening-role)
+    + [`notify` role](#notify-role)
+  * [Requirements](#requirements)
+    + [GitHub repository secrets](#github-repository-secrets)
+    + [GitHub `hardening` workflow inputs](#github-hardening-workflow-inputs)
+  * [Supported Operating Systems](#supported-operating-systems)
+    + [Tested Operating Systems (so far)](#tested-operating-systems-so-far)
+  * [TO DO list](#to-do-list)
+
+<br>
+
 ## Roles
 
 Currently, the repository contains three Ansible roles: `crowdsec`, `hardening` and `notify`.
@@ -189,7 +205,7 @@ The secrets tab should look like follows:
 
 <img src="https://user-images.githubusercontent.com/73181608/201358470-784a926b-dde4-4805-8d1a-aa03388233a2.png" width="70%">
 
-### GitHub `hardening` workflow inputs
+### GitHub _hardening_ workflow inputs
 
 Some __string inputs__ are required when manually triggering the `hardening` workflow:
 
@@ -198,7 +214,8 @@ Some __string inputs__ are required when manually triggering the `hardening` wor
 - SSH username
 - Run `crowdsec` role checkbox: this value is embedded in [vars/main.yml](ansible/vars/main.yml) when running the `hardening` workflow. However, a default `true` value is also defined in [defaults/main.yml](ansible/defaults/main.yml).
 - Run `hardening` role checkbox: this value is embedded in [vars/main.yml](ansible/vars/main.yml) when running the `hardening` workflow. However, a default `true` value is also defined in [defaults/main.yml](ansible/defaults/main.yml).
-- _The workflow branch must be `main` in order for the workflow to run. It cannot be changed._
+- Run `notify` role checkbox: this value is embedded in [vars/main.yml](ansible/vars/main.yml) when running the `hardening` workflow. However, a default `true` value is also defined in [defaults/main.yml](ansible/defaults/main.yml).
+- _The workflow branch must be `main` in order for the workflow to run. It cannot be customized._
 
 <img src="https://user-images.githubusercontent.com/73181608/201645513-a7bcf7c1-1628-4ef0-9a1d-1fe7de9cbd35.png" width="30%">
 
