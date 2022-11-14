@@ -112,15 +112,60 @@ It's recommended that `cron` jobs, stored in `/etc` directory, are manually chec
 
 ### `notify` role
 
-This role creates some services that monitor important logs and alert using a Telegram bot.
+This role acts as an HIDS (Host-based Intrusion Detection System): it creates some system services that monitor important logs and send alerts using a Telegram bot.
 
 Role `notify` performs the following actions:
 
 - Install `curl` & `inotify-tools` packages.
 - Deploy the scripts that will run in the server, monitor de log files and send requests to the Telegram API.
   - This scripts will be deployed in `/tmp/***_notify.sh`.
-- Create one service per script, that will ensure that the scripts are run on each boot.
+- Create one system service per script, that will ensure that the scripts are run on each boot.
   - This services will be deployed in `/lib/systemd/system/***_notify.service`.
+
+This are the log files that are monitored, and the string searched inside them:
+
+<table>
+    <thead>
+        <tr>
+            <th>Service</th>
+            <th>OS</th>
+            <th>Log file</th>
+            <th>String</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td rowspan=2>Auth</td>
+            <td>Debian</td>
+            <td>/var/log/auth.log</td>
+            <td rowspan=2>session opened</td>
+        </tr>
+        <tr>
+            <td>EL/CentOS</td>
+            <td>/var/log/secure</td>
+        </tr>
+        <tr>
+            <td rowspan=2>Apache</td>
+            <td>Debian</td>
+            <td>/var/log/apache2/access.log</td>
+            <td rowspan=2>GET|POST</td>
+        </tr>
+        <tr>
+            <td>EL/CentOS</td>
+            <td>/var/log/httpd/access_log</td>
+        </tr>
+        <tr>
+            <td>Firewall</td>
+            <td>All</td>
+            <td>/var/log/firewalld</td>
+            <td>REJECT</td>
+        </tr>
+    </tbody>
+</table>
+
+<br>
+
+> :warning: __WARNING__: Both Telegram chat ID and bot token will be hardcoded in the scripts files, so only use this alerts under controlled environments.
 
 <br>
 
@@ -135,7 +180,7 @@ Some __GitHub repository secrets__ must be present in order for the GitHub `hard
 - CrowdSec dashboard login password must be defined with name `DASHBOARD_PASSWORD`.
 - System `root` user password must be defined with name `ROOT_PASSWORD`.
 - Telegram bot API token must be defined with name `TELEGRAM_TOKEN`.
-- Telegram ID from chart where inotifywait alerts will be delivered must be defined with name `TELEGRAM_ID_CHAT`.
+- Telegram ID from the chat where inotifywait alerts will be delivered must be defined with name `TELEGRAM_ID_CHAT`.
 
 The secrets tab should look like follows:
 
