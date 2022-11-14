@@ -197,7 +197,7 @@ Some __string inputs__ are required when manually triggering the `hardening` wor
 - Run `hardening` role checkbox: this value is embedded in [vars/main.yml](ansible/vars/main.yml) when running the `hardening` workflow. However, a default `true` value is also defined in [defaults/main.yml](ansible/defaults/main.yml).
 - _The workflow branch must be `main` in order for the workflow to run. It cannot be changed._
 
-<img src="https://user-images.githubusercontent.com/73181608/200614172-91ac648c-027a-4892-9dca-e2ea40d77628.png" width="25%">
+<img src="https://user-images.githubusercontent.com/73181608/201645513-a7bcf7c1-1628-4ef0-9a1d-1fe7de9cbd35.png" width="30%">
 
 ## Supported Operating Systems
 
