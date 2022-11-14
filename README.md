@@ -46,6 +46,9 @@ cscli metrics
 
 # List installed parsers, collections, scenarios and postoverflows
 cscli hub list
+
+# Check if any other collection is needed regarding your active system services
+/usr/share/crowdsec/wizard.sh -c
 ```
 
 <br>
