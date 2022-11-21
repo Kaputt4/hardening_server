@@ -2,6 +2,8 @@
 
 Repository with Ansible playbook to harden a server.
 
+This hardening was intended for an __attack&defense Capture The Flag (CTF) cybersecurity competition__, so maybe some additional security tasks may be needed for hardening an enterprise environment or any other server.
+
 [![Hardening](https://github.com/Kaputt4/hardening_server/actions/workflows/hardening.yml/badge.svg)](https://github.com/Kaputt4/hardening_server/actions/workflows/hardening.yml) [![Ansible Lint](https://github.com/Kaputt4/hardening_server/actions/workflows/lint.yml/badge.svg)](https://github.com/Kaputt4/hardening_server/actions/workflows/lint.yml) [![dependabot badge](https://badgen.net/github/dependabot/Kaputt4/hardening_server?icon=dependabot)](https://github.com/Kaputt4/hardening_server/network/updates)
 
 ## TOC
