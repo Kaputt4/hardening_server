@@ -20,6 +20,6 @@ jobs:
         with:
           fetch-depth: 0
       - name: Run ansible-lint
-        uses: ansible-community/ansible-lint-action@600e6944ad03f5a3a451899363229c492f1dfc3b
+        uses: ansible-community/ansible-lint-action@2c4cedce36c2950aa48217b9d554c8c34da39eb6
         with:
           path: "ansible/"
