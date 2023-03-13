@@ -13,7 +13,7 @@ This hardening was intended for an __attack&defense Capture The Flag (CTF) cyber
     + [`crowdsec` role](#crowdsec-role)
     + [`hardening` role](#hardening-role)
     + [`notify` role](#notify-role)
-  * [:gear:	Requirements](#gear-requirements)
+  * [:gear:	Requirements](#gearrequirements)
     + [GitHub repository secrets](#github-repository-secrets)
     + [GitHub `hardening` workflow inputs](#github-hardening-workflow-inputs)
   * [:white_check_mark: Supported Operating Systems](#white_check_mark-supported-operating-systems)
@@ -105,7 +105,7 @@ Role `hardening` performs the following actions:
 - Change users configuration:
   - Expire `nobody`/`nfsnobody` user password.
   - Change `nobody`/`nfsnobody` and `sudo` account expiration.
-  - Change `root` user password for value in `ROOT_PASSWORD` repository secret (see details in [Requirements](#gear-requirements) section).
+  - Change `root` user password for value in `ROOT_PASSWORD` repository secret (see details in [Requirements](#gearrequirements) section).
   - Limit `/home/user` permissions.
   - Alert of users without passwords.
   - Alert of users with UID 0 that are not `root` user.
