@@ -1,3 +1,7 @@
+# It's highly recommended to avoid this auto-merge process because it could introduce vulnerable dependencies.
+# However, it's used here as this repository is intended to be used only in controlled development environments.
+# See [README.md](/README.md) for more information.
+
 name: Dependabot auto-merge
 on: pull_request
 
@@ -7,6 +11,7 @@ permissions:
 
 jobs:
   dependabot:
+    name: Dependabot PRs approve and auto-merge
     runs-on: ubuntu-latest
     if: ${{ github.actor == 'dependabot[bot]' }}
     steps:
@@ -16,17 +21,15 @@ jobs:
         with:
           github-token: "${{ secrets.GITHUB_TOKEN }}"
 
-      - name: Auto-merge Dependabot PRs for semver-patch updates
-        if: ${{ contains(steps.metadata.outputs.dependency-names, 'ansible') && steps.metadata.outputs.update-type == 'version-update:semver-patch' }}
-        run: |
-          gh pr review --approve "$PR_URL"
-          gh pr merge --auto --merge "$PR_URL"
-        env:
-          PR_URL: ${{ github.event.pull_request.html_url }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Auto-merge Dependabot PRs for semver-minor updates
-        if: ${{ contains(steps.metadata.outputs.dependency-names, 'ansible') && steps.metadata.outputs.update-type == 'version-update:semver-minor' }}
+      - name: Auto-merge Dependabot PRs
+        if: >
+          (
+               steps.metadata.outputs.update-type == 'version-update:semver-patch'
+            || steps.metadata.outputs.update-type == 'version-update:semver-minor'
+          ) && (
+               steps.metadata.outputs.dependency-names == 'ansible'
+            || steps.metadata.outputs.dependency-names == 'ansible-lint'
+          )
         run: |
           gh pr review --approve "$PR_URL"
           gh pr merge --auto --merge "$PR_URL"
