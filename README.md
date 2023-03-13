@@ -9,20 +9,21 @@ This hardening was intended for an __attack&defense Capture The Flag (CTF) cyber
 ## TOC
 
 - [Hardening a Server](#hardening-a-server)
-  * [Roles](#roles)
+  * [:scroll: Roles](#scroll-roles)
     + [`crowdsec` role](#crowdsec-role)
     + [`hardening` role](#hardening-role)
     + [`notify` role](#notify-role)
-  * [Requirements](#requirements)
+  * [:gear:	Requirements](#gearrequirements)
     + [GitHub repository secrets](#github-repository-secrets)
     + [GitHub `hardening` workflow inputs](#github-hardening-workflow-inputs)
-  * [Supported Operating Systems](#supported-operating-systems)
+  * [:white_check_mark: Supported Operating Systems](#white_check_mark-supported-operating-systems)
     + [Tested Operating Systems (so far)](#tested-operating-systems-so-far)
-  * [TO DO list](#to-do-list)
+  * [:warning: Security notice](#warning-security-notice)
+  * [:construction: TO DO list](#construction-to-do-list)
 
 <br>
 
-## Roles
+## :scroll: Roles
 
 Currently, the repository contains three Ansible roles: `crowdsec`, `hardening` and `notify`.
 
@@ -104,7 +105,7 @@ Role `hardening` performs the following actions:
 - Change users configuration:
   - Expire `nobody`/`nfsnobody` user password.
   - Change `nobody`/`nfsnobody` and `sudo` account expiration.
-  - Change `root` user password for value in `ROOT_PASSWORD` repository secret (see details in [Requirements](##requirements) section).
+  - Change `root` user password for value in `ROOT_PASSWORD` repository secret (see details in [Requirements](#gearrequirements) section).
   - Limit `/home/user` permissions.
   - Alert of users without passwords.
   - Alert of users with UID 0 that are not `root` user.
@@ -190,7 +191,7 @@ This are the log files that are monitored, and the string searched inside them:
 
 <br>
 
-## Requirements
+## :gear:	Requirements
 
 ### GitHub repository secrets
 
@@ -221,7 +222,7 @@ Some __string inputs__ are required when manually triggering the `hardening` wor
 
 <img src="https://user-images.githubusercontent.com/73181608/201645513-a7bcf7c1-1628-4ef0-9a1d-1fe7de9cbd35.png" width="30%">
 
-## Supported Operating Systems
+## :white_check_mark: Supported Operating Systems
 
 - Debian/Ubuntu
 - EL/CentOS 7
@@ -243,7 +244,13 @@ Some __string inputs__ are required when manually triggering the `hardening` wor
 | CentOS Stream 9 x86_64                   | AWS ami-0269dcaea2eafc196 | :white_check_mark: |
 | Amazon Linux 2 Kernel 5.10               | AWS ami-05c42683296709b61 | :white_check_mark: |
 
-## TO DO list
+## :warning: Security notice
+
+The workflow created in file [`dependabot-automerge.yml`](.github/workflows/dependabot-automerge.yml) approves and merges all Dependabot pull requests that push minor or patch updates of `ansible` or `ansible-lint` packages.
+
+However, __this is not recommended in production environments__ as it could introduce vulnerable dependencies automatically without any human check. It's done in this repository as it's intended to be used only in controlled development environments and checking the package name and author. Be careful with it if you fork or use this repository in any way.
+
+## :construction: TO DO list
 
 - [X] Having problems with Ansible `yum-repository` module while downloading repo files in task [docker_el.yml](ansible/roles/crowdsec/tasks/docker_el.yml) (lines 26-38). It has been replaced with `get_url` module.
 
