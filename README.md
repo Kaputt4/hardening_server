@@ -248,7 +248,27 @@ Some __string inputs__ are required when manually triggering the `hardening` wor
 
 The workflow created in file [`dependabot-automerge.yml`](.github/workflows/dependabot-automerge.yml) approves and merges all Dependabot pull requests that push minor or patch updates of `ansible` or `ansible-lint` packages.
 
-However, __this is not recommended in production environments__ as it could introduce vulnerable dependencies automatically without any human check. It's done in this repository as it's intended to be used only in controlled development environments and checking the package name and author. Be careful with it if you fork or use this repository in any way.
+However, __this is not recommended in production environments__ as it could introduce vulnerable dependencies automatically without any human check. It's done in this repository as it's intended to be used only in controlled development environments. Be careful with it if you fork or use this repository in any way.
+
+In order to try to minimize exposure as much as possible, the workflow scope has been restricted, checking the following topics:
+
+- The name of the updated packages:
+  - `ansible`
+  - `ansible-lint`
+- The author of the PR:
+  - `dependabot[bot]`
+- The branches of the PR:
+  - `dependabot/pip/ansible-lint-**`
+  - `dependabot/pip/ansible-**`
+  - `dependabot/github_actions/actions/checkout-**`
+  - `dependabot/github_actions/actions/setup-python-**`
+  - `dependabot/github_actions/ansible-community/ansible-lint-action-**`
+  - `dependabot/github_actions/dependabot/fetch-metadata-**`
+- The modified files:
+  - `.github/workflows/dependabot-automerge.yml`
+  - `.github/workflows/hardening.yml`
+  - `.github/workflows/lint.yml`
+  - `requirements.txt`
 
 ## :construction: TO DO list
 

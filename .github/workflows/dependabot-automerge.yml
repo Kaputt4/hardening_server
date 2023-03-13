@@ -3,7 +3,20 @@
 # See [README.md](/README.md) for more information.
 
 name: Dependabot auto-merge
-on: pull_request
+on: 
+  pull_request:
+    branches:
+      - 'dependabot/pip/ansible-lint-**'
+      - 'dependabot/pip/ansible-**'
+      - 'dependabot/github_actions/actions/checkout-**'
+      - 'dependabot/github_actions/actions/setup-python-**'
+      - 'dependabot/github_actions/ansible-community/ansible-lint-action-**'
+      - 'dependabot/github_actions/dependabot/fetch-metadata-**'
+    paths:
+      - '.github/workflows/dependabot-automerge.yml'
+      - '.github/workflows/hardening.yml'
+      - '.github/workflows/lint.yml'
+      - 'requirements.txt'
 
 permissions:
   contents: write
