@@ -5,13 +5,7 @@
 name: Dependabot auto-merge
 on: 
   pull_request:
-    branches:
-      - 'dependabot/pip/ansible-lint-**'
-      - 'dependabot/pip/ansible-**'
-      - 'dependabot/github_actions/dot-github/workflows/actions/checkout-**'
-      - 'dependabot/github_actions/dot-github/workflows/actions/setup-python-**'
-      - 'dependabot/github_actions/dot-github/workflows/ansible-community/ansible-lint-action-**'
-      - 'dependabot/github_actions/dot-github/workflows/dependabot/fetch-metadata-**'
+    branches: [ main ]
     paths:
       - '.github/workflows/dependabot-automerge.yml'
       - '.github/workflows/hardening.yml'

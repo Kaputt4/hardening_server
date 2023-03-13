@@ -258,12 +258,7 @@ In order to try to minimize exposure as much as possible, the workflow scope has
 - The author of the PR:
   - `dependabot[bot]`
 - The branches of the PR:
-  - `dependabot/pip/ansible-lint-**`
-  - `dependabot/pip/ansible-**`
-  - `dependabot/github_actions/actions/checkout-**`
-  - `dependabot/github_actions/actions/setup-python-**`
-  - `dependabot/github_actions/ansible-community/ansible-lint-action-**`
-  - `dependabot/github_actions/dependabot/fetch-metadata-**`
+  - `main`
 - The modified files:
   - `.github/workflows/dependabot-automerge.yml`
   - `.github/workflows/hardening.yml`
