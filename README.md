@@ -255,6 +255,10 @@ In order to try to minimize exposure as much as possible, the workflow scope has
 - The name of the updated packages:
   - `ansible`
   - `ansible-lint`
+  - `actions/checkout`
+  - `actions/setup-python`
+  - `ansible-community/ansible-lint-action`
+  - `dependabot/fetch-metadata`
 - The author of the PR:
   - `dependabot[bot]`
 - The branches of the PR:

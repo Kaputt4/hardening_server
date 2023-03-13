@@ -36,6 +36,10 @@ jobs:
           ) && (
                steps.metadata.outputs.dependency-names == 'ansible'
             || steps.metadata.outputs.dependency-names == 'ansible-lint'
+            || steps.metadata.outputs.dependency-names == 'actions/checkout'
+            || steps.metadata.outputs.dependency-names == 'actions/setup-python'
+            || steps.metadata.outputs.dependency-names == 'ansible-community/ansible-lint-action'
+            || steps.metadata.outputs.dependency-names == 'dependabot/fetch-metadata'
           )
         run: |
           gh pr review --approve "$PR_URL"
